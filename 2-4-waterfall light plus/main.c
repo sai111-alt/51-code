@@ -3,7 +3,7 @@
 void Delay1ms(unsigned int xms)	//注意单片机中的int类型是16位
 {
 	unsigned char data i, j;
-	while(--xms)
+	while(xms--)
 	{
 		i = 2;
 		j = 239;
