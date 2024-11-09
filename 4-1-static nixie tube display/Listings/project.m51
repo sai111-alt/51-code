@@ -1,0 +1,110 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    11/09/2024  21:54:27  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+D:\RJ\KEIL5\C51\BIN\BL51.EXE .\Objects\mian.obj TO .\Objects\project PRINT (.\Listings\project.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\mian.obj (MIAN)
+  D:\RJ\KEIL5\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\RJ\KEIL5\C51\LIB\C51S.LIB (?C?COPY)
+
+
+LINK MAP OF MODULE:  .\Objects\project (MIAN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     000DH     UNIT         _DATA_GROUP_
+            IDATA   0015H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     00F6H     UNIT         ?C?LIB_CODE
+            CODE    00F9H     007EH     UNIT         ?PR?_NIXIETUBE?MIAN
+            CODE    0177H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0183H     000BH     UNIT         ?PR?MAIN?MIAN
+            CODE    018EH     000AH     UNIT         ?CO?MIAN
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\project (MIAN)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?MIAN
+
+?PR?MAIN?MIAN                  -----    -----
+  +--> ?PR?_NIXIETUBE?MIAN
+
+?PR?_NIXIETUBE?MIAN            0008H    000DH
+  +--> ?CO?MIAN
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\project (MIAN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MIAN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  11/09/2024  21:54:27  PAGE 2
+
+
+  D:0080H         PUBLIC        P0
+  C:00F9H         PUBLIC        _NixieTube
+  B:00A0H.2       PUBLIC        P2_2
+  B:00A0H.3       PUBLIC        P2_3
+  B:00A0H.4       PUBLIC        P2_4
+  C:0183H         PUBLIC        main
+  C:018EH         SYMBOL        _?ix1000
+  -------         PROC          _NIXIETUBE
+  D:0008H         SYMBOL        Location
+  D:0009H         SYMBOL        Number
+  -------         DO            
+  D:000BH         SYMBOL        NixieTable
+  -------         ENDDO         
+  C:00F9H         LINE#         3
+  C:00FFH         LINE#         4
+  C:00FFH         LINE#         5
+  C:0112H         LINE#         6
+  C:0140H         LINE#         7
+  C:0140H         LINE#         8
+  C:0144H         LINE#         9
+  C:0148H         LINE#         10
+  C:014CH         LINE#         11
+  C:0150H         LINE#         12
+  C:0158H         LINE#         13
+  C:0160H         LINE#         14
+  C:0168H         LINE#         15
+  C:016EH         LINE#         16
+  C:016EH         LINE#         17
+  C:0176H         LINE#         18
+  -------         ENDPROC       _NIXIETUBE
+  -------         PROC          MAIN
+  C:0183H         LINE#         20
+  C:0183H         LINE#         21
+  C:0183H         LINE#         22
+  C:018CH         LINE#         23
+  C:018CH         LINE#         24
+  C:018CH         LINE#         26
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MIAN
+
+  -------         MODULE        ?C?COPY
+  C:00D3H         PUBLIC        ?C?COPY
+  -------         ENDMOD        ?C?COPY
+
+Program Size: data=22.0 xdata=0 code=408
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
