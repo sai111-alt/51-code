@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   MAIN                                                              11/10/2024 13:09:37 PAGE 1   
+C51 COMPILER V9.59.0.0   MAIN                                                              11/10/2024 14:16:29 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
@@ -10,65 +10,61 @@ line level    source
 
    1          #include <REGX52.H>
    2          
-   3          void Delay(int x) //@12MHz
+   3          void Delay(unsigned int xms)  //@12MHz
    4          {
    5   1        unsigned char data i, j;
    6   1      
-   7   1        while(x--)
+   7   1        while(xms--)
    8   1        {
    9   2          i = 2;
   10   2          j = 239;
-  11   2          do
+  11   2          do 
   12   2          {
   13   3            while (--j);
   14   3          } while (--i);
-  15   2        }
+  15   2          }
   16   1      }
   17          
-  18          
-  19          void NixieTube(unsigned char Location,Number)
-  20          {
-  21   1        unsigned char NixieTable[]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07,0x7F,0x6F};
-  22   1        switch(Location)
-  23   1        {
-  24   2          case 1:P2_4=1;P2_3=1;P2_2=1;break;
-  25   2          case 2:P2_4=1;P2_3=1;P2_2=0;break;
-  26   2          case 3:P2_4=1;P2_3=0;P2_2=1;break;
-  27   2          case 4:P2_4=1;P2_3=0;P2_2=0;break;
-  28   2          case 5:P2_4=0;P2_3=1;P2_2=1;break;
-  29   2          case 6:P2_4=0;P2_3=1;P2_2=0;break;
-  30   2          case 7:P2_4=0;P2_3=0;P2_2=1;break;
-  31   2          case 8:P2_4=0;P2_3=0;P2_2=0;break;
-  32   2        }
-  33   1        P0=NixieTable[Number];
-  34   1        //要同时显示多个数码管，需要消影
-  35   1        //显示多个数码管：是先进行这个数码的位选，再对其段选
-  36   1        //然后再对下一个数码管进行位选，再段选，依次类推
-  37   1        //逻辑就是：位选 段选 → 下一个数码管位选 段选
-  38   1        //这段选到下一个位选之间，因为速度很快，会导致上个段选
-  39   1        //的数据会串到下一个位选上，从而产生影子
-  40   1        //所以我们在这个逻辑之间加上一个清零就好了，让数码馆不显示
-  41   1        //即：位选 段选 清零 下一个数码管位选 段选
-  42   1        //以下程序用于数码管消影
-  43   1        
-  44   1        Delay(1);//先掩饰1ms，如果立马清零，只是会让原来的数码管变暗
-  45   1        P0=0x00;//清零
-  46   1      }
-  47          
-  48          void main()
-  49          {
-  50   1        while(1)
-  51   1        {
-  52   2            NixieTube(1,1);
-  53   2      //      Delay(20);
-  54   2            NixieTube(2,2);
-C51 COMPILER V9.59.0.0   MAIN                                                              11/10/2024 13:09:37 PAGE 2   
+  18          void NixieTube(unsigned char Location,Number)
+  19          {
+  20   1        unsigned char NixieTable[]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07,0x7F,0x6F};
+  21   1        switch(Location)
+  22   1        {
+  23   2          case 1:P2_4=1;P2_3=1;P2_2=1;break;
+  24   2          case 2:P2_4=1;P2_3=1;P2_2=0;break;
+  25   2          case 3:P2_4=1;P2_3=0;P2_2=1;break;
+  26   2          case 4:P2_4=1;P2_3=0;P2_2=0;break;
+  27   2          case 5:P2_4=0;P2_3=1;P2_2=1;break;
+  28   2          case 6:P2_4=0;P2_3=1;P2_2=0;break;
+  29   2          case 7:P2_4=0;P2_3=0;P2_2=1;break;
+  30   2          case 8:P2_4=0;P2_3=0;P2_2=0;break;
+  31   2        }
+  32   1        P0=NixieTable[Number];
+  33   1        //要同时显示多个数码管，需要消影
+  34   1        //显示多个数码管：是先进行这个数码的位选，再对其段选
+  35   1        //然后再对下一个数码管进行位选，再段选，依次类推
+  36   1        //逻辑就是：位选 段选 → 下一个数码管位选 段选
+  37   1        //这段选到下一个位选之间，因为速度很快，会导致上个段选
+  38   1        //的数据会串到下一个位选上，从而产生影子
+  39   1        //所以我们在这个逻辑之间加上一个清零就好了，让数码馆不显示
+  40   1        //即：位选 段选 清零 下一个数码管位选 段选
+  41   1        //以下程序用于数码管消影：
+  42   1        Delay(1);//先延时1ms，如果立马清零，只是会让原来的数码管变暗
+  43   1        P0=0x00;//清零
+  44   1      }
+  45          
+  46          void main()
+  47          {
+  48   1        while(1)
+  49   1        {
+  50   2            NixieTube(1,1);
+  51   2            NixieTube(2,2);
+  52   2            NixieTube(3,3);
+  53   2        }
+  54   1      }
+C51 COMPILER V9.59.0.0   MAIN                                                              11/10/2024 14:16:29 PAGE 2   
 
-  55   2      //      Delay(20);
-  56   2            NixieTube(3,3);
-  57   2      //      Delay(20);
-  58   2        }
-  59   1      }
+  55          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
