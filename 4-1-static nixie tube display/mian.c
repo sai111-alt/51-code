@@ -19,7 +19,7 @@ void NixieTube(unsigned char Location,Number)
 
 void main()
 {
-	NixieTube(5,3);
+	NixieTube(4,6);
 	while(1)
 	{
 		

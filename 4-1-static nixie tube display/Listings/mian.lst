@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   MIAN                                                              11/09/2024 21:54:27 PAGE 1   
+C51 COMPILER V9.59.0.0   MIAN                                                              11/10/2024 12:19:51 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MIAN
@@ -29,7 +29,7 @@ line level    source
   19          
   20          void main()
   21          {
-  22   1        NixieTube(5,3);
+  22   1        NixieTube(4,6);
   23   1        while(1)
   24   1        {
   25   2          
