@@ -267,31 +267,31 @@ unsigned char MatrixKeyboard()
 				比如S1被按下，那么电路导通，会使得P1_7=0;反之，若P1_7=0,则S1被按下，
 				所以我们依次判断对应4个IO口是否为0就可以知道哪个按键被按下了，
 				然后依次切换对应列，逐个扫描就能识别整个矩阵键盘哪个按键被按下了。*/
-	if(P1_7==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=1;}
-	if(P1_6==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=5;}
-	if(P1_5==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=9;}
-	if(P1_4==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=13;}
+	if(P1_7==0){Delay(100);while(P1_7==0);Delay(100);KeyNumber=1;}
+	if(P1_6==0){Delay(100);while(P1_7==0);Delay(100);KeyNumber=5;}
+	if(P1_5==0){Delay(100);while(P1_7==0);Delay(100);KeyNumber=9;}
+	if(P1_4==0){Delay(100);while(P1_7==0);Delay(100);KeyNumber=13;}
 	
 	P1=0xFF;
 	P1_2=0;
-	if(P1_7==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=2;}
-	if(P1_6==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=6;}
-	if(P1_5==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=10;}
-	if(P1_4==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=14;}
+	if(P1_7==0){Delay(100);while(P1_7==0);Delay(100);KeyNumber=2;}
+	if(P1_6==0){Delay(100);while(P1_7==0);Delay(100);KeyNumber=6;}
+	if(P1_5==0){Delay(100);while(P1_7==0);Delay(100);KeyNumber=10;}
+	if(P1_4==0){Delay(100);while(P1_7==0);Delay(100);KeyNumber=14;}
 	
 	P1=0xFF;
 	P1_1=0;
-	if(P1_7==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=3;}
-	if(P1_6==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=7;}
-	if(P1_5==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=11;}
-	if(P1_4==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=15;}
+	if(P1_7==0){Delay(100);while(P1_7==0);Delay(100);KeyNumber=3;}
+	if(P1_6==0){Delay(100);while(P1_7==0);Delay(100);KeyNumber=7;}
+	if(P1_5==0){Delay(100);while(P1_7==0);Delay(100);KeyNumber=11;}
+	if(P1_4==0){Delay(100);while(P1_7==0);Delay(100);KeyNumber=15;}
 	
 	P1=0xFF;
 	P1_0=0;
-	if(P1_7==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=4;}
-	if(P1_6==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=8;}
-	if(P1_5==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=12;}
-	if(P1_4==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=16;}
+	if(P1_7==0){Delay(100);while(P1_7==0);Delay(100);KeyNumber=4;}
+	if(P1_6==0){Delay(100);while(P1_7==0);Delay(100);KeyNumber=8;}
+	if(P1_5==0){Delay(100);while(P1_7==0);Delay(100);KeyNumber=12;}
+	if(P1_4==0){Delay(100);while(P1_7==0);Delay(100);KeyNumber=16;}
 	
 	return KeyNumber;
 }

@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   MAIN                                                              11/11/2024 17:39:43 PAGE 1   
+C51 COMPILER V9.59.0.0   MAIN                                                              11/11/2024 19:43:24 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
@@ -13,25 +13,62 @@ line level    source
    3          void main()
    4          {
    5   1        int KeyNum = 0;
-   6   1        LCD_Init();
-   7   1        LCD_ShowString(1,1,"MatrixKeyboard:");
-   8   1        while(1)
-   9   1        {
-  10   2          KeyNum = MatrixKeyboard();
-  11   2          if(KeyNum)
-  12   2          {
-  13   3            LCD_ShowNum(2,1,KeyNum,2);
-  14   3          }
-  15   2        }
-  16   1      }
+   6   1        unsigned int Password = 0;
+   7   1        unsigned int Count = 0;
+   8   1        LCD_Init();
+   9   1        LCD_ShowString(1,1,"Password:");
+  10   1        while(1)
+  11   1        {
+  12   2          KeyNum = MatrixKeyboard();
+  13   2          if(KeyNum)
+  14   2          {
+  15   3            if(KeyNum <= 10)//按s1-s10，输入密码
+  16   3            {
+  17   4              if(Count < 4)
+  18   4              {
+  19   5                Password*=10;//每次密码左移1位
+  20   5                Password+=KeyNum%10;//每次获取1位密码
+  21   5                Count++;//计数，只能按4次
+  22   5              }
+  23   4              LCD_ShowNum(2,1,Password,4);//输出显示
+  24   4            }
+  25   3            if(KeyNum == 11)//进行密码确定
+  26   3            {
+  27   4              if(Password == 2345)
+  28   4              {
+  29   5                LCD_ShowString(1,14,"OK ");
+  30   5                Password = 0;
+  31   5                Count = 0;//两者清零以重新输入密码
+  32   5                LCD_ShowNum(2,1,Password,4);//输出显示
+  33   5              }
+  34   4              else
+  35   4              {
+  36   5                LCD_ShowString(1,14,"ERR");
+  37   5                Password = 0;
+  38   5                Count = 0;
+  39   5                LCD_ShowNum(2,1,Password,4);
+  40   5              }
+  41   4            } 
+  42   3            if(KeyNum == 12)//取消输入
+  43   3            {
+  44   4              Password = 0;
+  45   4              Count = 0;
+  46   4              LCD_ShowNum(2,1,Password,4);
+  47   4            }
+  48   3          }
+  49   2        }
+  50   1      }
+  51          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     51    ----
-   CONSTANT SIZE    =     16    ----
+C51 COMPILER V9.59.0.0   MAIN                                                              11/11/2024 19:43:24 PAGE 2   
+
+   CODE SIZE        =    219    ----
+   CONSTANT SIZE    =     18    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----       2
+   DATA SIZE        =   ----       6
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
