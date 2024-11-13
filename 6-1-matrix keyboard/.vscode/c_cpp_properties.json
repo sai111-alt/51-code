@@ -3,7 +3,7 @@
         {
             "name": "Target 1",
             "includePath": [
-                "d:\\Desktop\\7-1-Independent key control LED water light mode"
+                "e:\\学习\\学习文件\\电子              学习文件\\51单片机\\51-code\\6-1-matrix keyboard"
             ],
             "defines": [
                 "__C51__",

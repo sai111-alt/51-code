@@ -1,3 +1,13 @@
 {
-    "C_Cpp.default.compilerPath": "C:\\MinGW\\bin\\gcc.exe"
+  "C_Cpp.default.compilerPath": "C:\\MinGW\\bin\\gcc.exe",
+  "C_Cpp.errorSquiggles": "enabled",
+  "files.associations": {
+    "regx52.h": "c",
+    "delay.h": "c",
+    "REGX52.H": "cpp",
+    "intrins.h": "c"
+  },
+  "KeilAssistant.Project.ExcludeList": [
+    
+    "template.uvproj", "template.uvprojx"]
 }

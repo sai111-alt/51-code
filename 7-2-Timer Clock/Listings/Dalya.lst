@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 21:40:40 PAGE 1   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 22:31:35 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE DALYA
@@ -62,7 +62,7 @@ line level    source
   52   1        LCD_RW = 0;
   53   1        LCD_DataPort = Data;
   54   1        LCD_EN = 1;
-C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 21:40:40 PAGE 2   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 22:31:35 PAGE 2   
 
   55   1        LCD_Delay();
   56   1        LCD_EN = 0;
@@ -126,7 +126,7 @@ line level    source
  114   1        LCD_SetCursor(Line, Column);
  115   1        for (i = 0; String[i] != '\0'; i++)
  116   1        {
-C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 21:40:40 PAGE 3   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 22:31:35 PAGE 3   
 
  117   2          LCD_WriteData(String[i]);
  118   2        }
@@ -190,7 +190,7 @@ line level    source
  176   1        for (i = Length; i > 0; i--)
  177   1        {
  178   2          LCD_WriteData(Number1 / LCD_Pow(10, i - 1) % 10 + '0');
-C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 21:40:40 PAGE 4   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 22:31:35 PAGE 4   
 
  179   2        }
  180   1      }
@@ -254,7 +254,7 @@ line level    source
  238   3          } while (--i);
  239   2        }
  240   1      }
-C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 21:40:40 PAGE 5   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 22:31:35 PAGE 5   
 
  241          
  242          void NixieTube(unsigned char Location, unsigned char Number)
@@ -318,7 +318,7 @@ line level    source
              -��，
  300   1                 比如S1被按下，那么电路导通，会使得P1_7=0;反之，若P1_7=0,则S1被按下，
  301   1                 所以我们依次判断对应4个IO口是否为0就可以知道哪个按键被按下了，
-C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 21:40:40 PAGE 6   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 22:31:35 PAGE 6   
 
  302   1                 然后依次切换对应列，逐个扫描就能识别整个矩阵键盘哪个按键被按下了。
              -*/
@@ -382,7 +382,7 @@ line level    source
  360   2          KeyNumber = 10;
  361   2        }
  362   1        if (P1_4 == 0)
-C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 21:40:40 PAGE 7   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 22:31:35 PAGE 7   
 
  363   1        {
  364   2          Delay(100);
@@ -446,7 +446,7 @@ line level    source
  422   2          KeyNumber = 8;
  423   2        }
  424   1        if (P1_5 == 0)
-C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 21:40:40 PAGE 8   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 22:31:35 PAGE 8   
 
  425   1        {
  426   2          Delay(100);
@@ -510,7 +510,7 @@ line level    source
  479          */
  480          
  481          // 作用是获取独立按键，范围为0~4，无按键按下返回值为0
-C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 21:40:40 PAGE 9   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 22:31:35 PAGE 9   
 
  482          unsigned char IndependentKey()
  483          {

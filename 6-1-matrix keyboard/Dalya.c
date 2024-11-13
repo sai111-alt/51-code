@@ -1,16 +1,16 @@
 #include "Delay.h"
 
-//Òı½ÅÅäÖÃ£º
+//å¼•è„šé…ç½®ï¼š
 sbit LCD_RS=P2^6;
 sbit LCD_RW=P2^5;
 sbit LCD_EN=P2^7;
 #define LCD_DataPort P0
 
-//º¯Êı¶¨Òå£º
+//å‡½æ•°å®šä¹‰ï¼š
 /**
-  * @brief  LCD1602ÑÓÊ±º¯Êı£¬12MHzµ÷ÓÃ¿ÉÑÓÊ±1ms
-  * @param  ÎŞ
-  * @retval ÎŞ
+  * @brief  LCD1602å»¶æ—¶å‡½æ•°ï¼Œ12MHzè°ƒç”¨å¯å»¶æ—¶1ms
+  * @param  æ— 
+  * @retval æ— 
   */
 void LCD_Delay()
 {
@@ -25,9 +25,9 @@ void LCD_Delay()
 }
 
 /**
-  * @brief  LCD1602Ğ´ÃüÁî
-  * @param  Command ÒªĞ´ÈëµÄÃüÁî
-  * @retval ÎŞ
+  * @brief  LCD1602å†™å‘½ä»¤
+  * @param  Command è¦å†™å…¥çš„å‘½ä»¤
+  * @retval æ— 
   */
 void LCD_WriteCommand(unsigned char Command)
 {
@@ -41,9 +41,9 @@ void LCD_WriteCommand(unsigned char Command)
 }
 
 /**
-  * @brief  LCD1602Ğ´Êı¾İ
-  * @param  Data ÒªĞ´ÈëµÄÊı¾İ
-  * @retval ÎŞ
+  * @brief  LCD1602å†™æ•°æ®
+  * @param  Data è¦å†™å…¥çš„æ•°æ®
+  * @retval æ— 
   */
 void LCD_WriteData(unsigned char Data)
 {
@@ -57,10 +57,10 @@ void LCD_WriteData(unsigned char Data)
 }
 
 /**
-  * @brief  LCD1602ÉèÖÃ¹â±êÎ»ÖÃ
-  * @param  Line ĞĞÎ»ÖÃ£¬·¶Î§£º1~2
-  * @param  Column ÁĞÎ»ÖÃ£¬·¶Î§£º1~16
-  * @retval ÎŞ
+  * @brief  LCD1602è®¾ç½®å…‰æ ‡ä½ç½®
+  * @param  Line è¡Œä½ç½®ï¼ŒèŒƒå›´ï¼š1~2
+  * @param  Column åˆ—ä½ç½®ï¼ŒèŒƒå›´ï¼š1~16
+  * @retval æ— 
   */
 void LCD_SetCursor(unsigned char Line,unsigned char Column)
 {
@@ -75,24 +75,24 @@ void LCD_SetCursor(unsigned char Line,unsigned char Column)
 }
 
 /**
-  * @brief  LCD1602³õÊ¼»¯º¯Êı
-  * @param  ÎŞ
-  * @retval ÎŞ
+  * @brief  LCD1602åˆå§‹åŒ–å‡½æ•°
+  * @param  æ— 
+  * @retval æ— 
   */
 void LCD_Init()
 {
-	LCD_WriteCommand(0x38);//°ËÎ»Êı¾İ½Ó¿Ú£¬Á½ĞĞÏÔÊ¾£¬5*7µãÕó
-	LCD_WriteCommand(0x0c);//ÏÔÊ¾¿ª£¬¹â±ê¹Ø£¬ÉÁË¸¹Ø
-	LCD_WriteCommand(0x06);//Êı¾İ¶ÁĞ´²Ù×÷ºó£¬¹â±ê×Ô¶¯¼ÓÒ»£¬»­Ãæ²»¶¯
-	LCD_WriteCommand(0x01);//¹â±ê¸´Î»£¬ÇåÆÁ
+	LCD_WriteCommand(0x38);//å…«ä½æ•°æ®æ¥å£ï¼Œä¸¤è¡Œæ˜¾ç¤ºï¼Œ5*7ç‚¹é˜µ
+	LCD_WriteCommand(0x0c);//æ˜¾ç¤ºå¼€ï¼Œå…‰æ ‡å…³ï¼Œé—ªçƒå…³
+	LCD_WriteCommand(0x06);//æ•°æ®è¯»å†™æ“ä½œåï¼Œå…‰æ ‡è‡ªåŠ¨åŠ ä¸€ï¼Œç”»é¢ä¸åŠ¨
+	LCD_WriteCommand(0x01);//å…‰æ ‡å¤ä½ï¼Œæ¸…å±
 }
 
 /**
-  * @brief  ÔÚLCD1602Ö¸¶¨Î»ÖÃÉÏÏÔÊ¾Ò»¸ö×Ö·û
-  * @param  Line ĞĞÎ»ÖÃ£¬·¶Î§£º1~2
-  * @param  Column ÁĞÎ»ÖÃ£¬·¶Î§£º1~16
-  * @param  Char ÒªÏÔÊ¾µÄ×Ö·û
-  * @retval ÎŞ
+  * @brief  åœ¨LCD1602æŒ‡å®šä½ç½®ä¸Šæ˜¾ç¤ºä¸€ä¸ªå­—ç¬¦
+  * @param  Line è¡Œä½ç½®ï¼ŒèŒƒå›´ï¼š1~2
+  * @param  Column åˆ—ä½ç½®ï¼ŒèŒƒå›´ï¼š1~16
+  * @param  Char è¦æ˜¾ç¤ºçš„å­—ç¬¦
+  * @retval æ— 
   */
 void LCD_ShowChar(unsigned char Line,unsigned char Column,char Char)
 {
@@ -101,11 +101,11 @@ void LCD_ShowChar(unsigned char Line,unsigned char Column,char Char)
 }
 
 /**
-  * @brief  ÔÚLCD1602Ö¸¶¨Î»ÖÃ¿ªÊ¼ÏÔÊ¾Ëù¸ø×Ö·û´®
-  * @param  Line ÆğÊ¼ĞĞÎ»ÖÃ£¬·¶Î§£º1~2
-  * @param  Column ÆğÊ¼ÁĞÎ»ÖÃ£¬·¶Î§£º1~16
-  * @param  String ÒªÏÔÊ¾µÄ×Ö·û´®
-  * @retval ÎŞ
+  * @brief  åœ¨LCD1602æŒ‡å®šä½ç½®å¼€å§‹æ˜¾ç¤ºæ‰€ç»™å­—ç¬¦ä¸²
+  * @param  Line èµ·å§‹è¡Œä½ç½®ï¼ŒèŒƒå›´ï¼š1~2
+  * @param  Column èµ·å§‹åˆ—ä½ç½®ï¼ŒèŒƒå›´ï¼š1~16
+  * @param  String è¦æ˜¾ç¤ºçš„å­—ç¬¦ä¸²
+  * @retval æ— 
   */
 void LCD_ShowString(unsigned char Line,unsigned char Column,char *String)
 {
@@ -118,7 +118,7 @@ void LCD_ShowString(unsigned char Line,unsigned char Column,char *String)
 }
 
 /**
-  * @brief  ·µ»ØÖµ=XµÄY´Î·½
+  * @brief  è¿”å›å€¼=Xçš„Yæ¬¡æ–¹
   */
 int LCD_Pow(int X,int Y)
 {
@@ -132,12 +132,12 @@ int LCD_Pow(int X,int Y)
 }
 
 /**
-  * @brief  ÔÚLCD1602Ö¸¶¨Î»ÖÃ¿ªÊ¼ÏÔÊ¾Ëù¸øÊı×Ö
-  * @param  Line ÆğÊ¼ĞĞÎ»ÖÃ£¬·¶Î§£º1~2
-  * @param  Column ÆğÊ¼ÁĞÎ»ÖÃ£¬·¶Î§£º1~16
-  * @param  Number ÒªÏÔÊ¾µÄÊı×Ö£¬·¶Î§£º0~65535
-  * @param  Length ÒªÏÔÊ¾Êı×ÖµÄ³¤¶È£¬·¶Î§£º1~5
-  * @retval ÎŞ
+  * @brief  åœ¨LCD1602æŒ‡å®šä½ç½®å¼€å§‹æ˜¾ç¤ºæ‰€ç»™æ•°å­—
+  * @param  Line èµ·å§‹è¡Œä½ç½®ï¼ŒèŒƒå›´ï¼š1~2
+  * @param  Column èµ·å§‹åˆ—ä½ç½®ï¼ŒèŒƒå›´ï¼š1~16
+  * @param  Number è¦æ˜¾ç¤ºçš„æ•°å­—ï¼ŒèŒƒå›´ï¼š0~65535
+  * @param  Length è¦æ˜¾ç¤ºæ•°å­—çš„é•¿åº¦ï¼ŒèŒƒå›´ï¼š1~5
+  * @retval æ— 
   */
 void LCD_ShowNum(unsigned char Line,unsigned char Column,unsigned int Number,unsigned char Length)
 {
@@ -150,12 +150,12 @@ void LCD_ShowNum(unsigned char Line,unsigned char Column,unsigned int Number,uns
 }
 
 /**
-  * @brief  ÔÚLCD1602Ö¸¶¨Î»ÖÃ¿ªÊ¼ÒÔÓĞ·ûºÅÊ®½øÖÆÏÔÊ¾Ëù¸øÊı×Ö
-  * @param  Line ÆğÊ¼ĞĞÎ»ÖÃ£¬·¶Î§£º1~2
-  * @param  Column ÆğÊ¼ÁĞÎ»ÖÃ£¬·¶Î§£º1~16
-  * @param  Number ÒªÏÔÊ¾µÄÊı×Ö£¬·¶Î§£º-32768~32767
-  * @param  Length ÒªÏÔÊ¾Êı×ÖµÄ³¤¶È£¬·¶Î§£º1~5
-  * @retval ÎŞ
+  * @brief  åœ¨LCD1602æŒ‡å®šä½ç½®å¼€å§‹ä»¥æœ‰ç¬¦å·åè¿›åˆ¶æ˜¾ç¤ºæ‰€ç»™æ•°å­—
+  * @param  Line èµ·å§‹è¡Œä½ç½®ï¼ŒèŒƒå›´ï¼š1~2
+  * @param  Column èµ·å§‹åˆ—ä½ç½®ï¼ŒèŒƒå›´ï¼š1~16
+  * @param  Number è¦æ˜¾ç¤ºçš„æ•°å­—ï¼ŒèŒƒå›´ï¼š-32768~32767
+  * @param  Length è¦æ˜¾ç¤ºæ•°å­—çš„é•¿åº¦ï¼ŒèŒƒå›´ï¼š1~5
+  * @retval æ— 
   */
 void LCD_ShowSignedNum(unsigned char Line,unsigned char Column,int Number,unsigned char Length)
 {
@@ -179,12 +179,12 @@ void LCD_ShowSignedNum(unsigned char Line,unsigned char Column,int Number,unsign
 }
 
 /**
-  * @brief  ÔÚLCD1602Ö¸¶¨Î»ÖÃ¿ªÊ¼ÒÔÊ®Áù½øÖÆÏÔÊ¾Ëù¸øÊı×Ö
-  * @param  Line ÆğÊ¼ĞĞÎ»ÖÃ£¬·¶Î§£º1~2
-  * @param  Column ÆğÊ¼ÁĞÎ»ÖÃ£¬·¶Î§£º1~16
-  * @param  Number ÒªÏÔÊ¾µÄÊı×Ö£¬·¶Î§£º0~0xFFFF
-  * @param  Length ÒªÏÔÊ¾Êı×ÖµÄ³¤¶È£¬·¶Î§£º1~4
-  * @retval ÎŞ
+  * @brief  åœ¨LCD1602æŒ‡å®šä½ç½®å¼€å§‹ä»¥åå…­è¿›åˆ¶æ˜¾ç¤ºæ‰€ç»™æ•°å­—
+  * @param  Line èµ·å§‹è¡Œä½ç½®ï¼ŒèŒƒå›´ï¼š1~2
+  * @param  Column èµ·å§‹åˆ—ä½ç½®ï¼ŒèŒƒå›´ï¼š1~16
+  * @param  Number è¦æ˜¾ç¤ºçš„æ•°å­—ï¼ŒèŒƒå›´ï¼š0~0xFFFF
+  * @param  Length è¦æ˜¾ç¤ºæ•°å­—çš„é•¿åº¦ï¼ŒèŒƒå›´ï¼š1~4
+  * @retval æ— 
   */
 void LCD_ShowHexNum(unsigned char Line,unsigned char Column,unsigned int Number,unsigned char Length)
 {
@@ -205,12 +205,12 @@ void LCD_ShowHexNum(unsigned char Line,unsigned char Column,unsigned int Number,
 }
 
 /**
-  * @brief  ÔÚLCD1602Ö¸¶¨Î»ÖÃ¿ªÊ¼ÒÔ¶ş½øÖÆÏÔÊ¾Ëù¸øÊı×Ö
-  * @param  Line ÆğÊ¼ĞĞÎ»ÖÃ£¬·¶Î§£º1~2
-  * @param  Column ÆğÊ¼ÁĞÎ»ÖÃ£¬·¶Î§£º1~16
-  * @param  Number ÒªÏÔÊ¾µÄÊı×Ö£¬·¶Î§£º0~1111 1111 1111 1111
-  * @param  Length ÒªÏÔÊ¾Êı×ÖµÄ³¤¶È£¬·¶Î§£º1~16
-  * @retval ÎŞ
+  * @brief  åœ¨LCD1602æŒ‡å®šä½ç½®å¼€å§‹ä»¥äºŒè¿›åˆ¶æ˜¾ç¤ºæ‰€ç»™æ•°å­—
+  * @param  Line èµ·å§‹è¡Œä½ç½®ï¼ŒèŒƒå›´ï¼š1~2
+  * @param  Column èµ·å§‹åˆ—ä½ç½®ï¼ŒèŒƒå›´ï¼š1~16
+  * @param  Number è¦æ˜¾ç¤ºçš„æ•°å­—ï¼ŒèŒƒå›´ï¼š0~1111 1111 1111 1111
+  * @param  Length è¦æ˜¾ç¤ºæ•°å­—çš„é•¿åº¦ï¼ŒèŒƒå›´ï¼š1~16
+  * @retval æ— 
   */
 void LCD_ShowBinNum(unsigned char Line,unsigned char Column,unsigned int Number,unsigned char Length)
 {
@@ -263,10 +263,10 @@ unsigned char MatrixKeyboard()
 	unsigned char KeyNumber=0;
 	
 	P1=0xFF;
-	P1_3=0;/*½áºÏµçÂ·Ô­ÀíÍ¼£¬µ±P1_3=0£¬ÆäËûÁĞÎª1Ê±£¬Ôò¼ì²âµÚ1ÁĞ£¬µ±ÓĞ°´¼ü°´ÏÂÊ±£¬
-				±ÈÈçS1±»°´ÏÂ£¬ÄÇÃ´µçÂ·µ¼Í¨£¬»áÊ¹µÃP1_7=0;·´Ö®£¬ÈôP1_7=0,ÔòS1±»°´ÏÂ£¬
-				ËùÒÔÎÒÃÇÒÀ´ÎÅĞ¶Ï¶ÔÓ¦4¸öIO¿ÚÊÇ·ñÎª0¾Í¿ÉÒÔÖªµÀÄÄ¸ö°´¼ü±»°´ÏÂÁË£¬
-				È»ºóÒÀ´ÎÇĞ»»¶ÔÓ¦ÁĞ£¬Öğ¸öÉ¨Ãè¾ÍÄÜÊ¶±ğÕû¸ö¾ØÕó¼üÅÌÄÄ¸ö°´¼ü±»°´ÏÂÁË¡£*/
+	P1_3=0;/*ç»“åˆç”µè·¯åŸç†å›¾ï¼Œå½“P1_3=0ï¼Œå…¶ä»–åˆ—ä¸º1æ—¶ï¼Œåˆ™æ£€æµ‹ç¬¬1åˆ—ï¼Œå½“æœ‰æŒ‰é”®æŒ‰ä¸‹æ—¶ï¼Œ
+				æ¯”å¦‚S1è¢«æŒ‰ä¸‹ï¼Œé‚£ä¹ˆç”µè·¯å¯¼é€šï¼Œä¼šä½¿å¾—P1_7=0;åä¹‹ï¼Œè‹¥P1_7=0,åˆ™S1è¢«æŒ‰ä¸‹ï¼Œ
+				æ‰€ä»¥æˆ‘ä»¬ä¾æ¬¡åˆ¤æ–­å¯¹åº”4ä¸ªIOå£æ˜¯å¦ä¸º0å°±å¯ä»¥çŸ¥é“å“ªä¸ªæŒ‰é”®è¢«æŒ‰ä¸‹äº†ï¼Œ
+				ç„¶åä¾æ¬¡åˆ‡æ¢å¯¹åº”åˆ—ï¼Œé€ä¸ªæ‰«æå°±èƒ½è¯†åˆ«æ•´ä¸ªçŸ©é˜µé”®ç›˜å“ªä¸ªæŒ‰é”®è¢«æŒ‰ä¸‹äº†ã€‚*/
 	if(P1_7==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=1;}
 	if(P1_6==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=5;}
 	if(P1_5==0){Delay(20);while(P1_7==0);Delay(20);KeyNumber=9;}
