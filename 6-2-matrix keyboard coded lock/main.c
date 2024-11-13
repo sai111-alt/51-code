@@ -12,24 +12,24 @@ void main()
 		KeyNum = MatrixKeyboard();
 		if(KeyNum)
 		{
-			if(KeyNum <= 10)//°´s1-s10£¬ÊäÈëÃÜÂë
+			if(KeyNum <= 10)//æŒ‰s1-s10ï¼Œè¾“å…¥å¯†ç 
 			{
 				if(Count < 4)
 				{
-					Password*=10;//Ã¿´ÎÃÜÂë×óÒÆ1Î»
-					Password+=KeyNum%10;//Ã¿´Î»ñÈ¡1Î»ÃÜÂë
-					Count++;//¼ÆÊý£¬Ö»ÄÜ°´4´Î
+					Password*=10;//æ¯æ¬¡å¯†ç å·¦ç§»1ä½
+					Password+=KeyNum%10;//æ¯æ¬¡èŽ·å–1ä½å¯†ç 
+					Count++;//è®¡æ•°ï¼Œåªèƒ½æŒ‰4æ¬¡
 				}
-				LCD_ShowNum(2,1,Password,4);//Êä³öÏÔÊ¾
+				LCD_ShowNum(2,1,Password,4);//è¾“å‡ºæ˜¾ç¤º
 			}
-			if(KeyNum == 11)//½øÐÐÃÜÂëÈ·¶¨
+			if(KeyNum == 11)//è¿›è¡Œå¯†ç ç¡®å®š
 			{
 				if(Password == 2345)
 				{
 					LCD_ShowString(1,14,"OK ");
 					Password = 0;
-					Count = 0;//Á½ÕßÇåÁãÒÔÖØÐÂÊäÈëÃÜÂë
-					LCD_ShowNum(2,1,Password,4);//Êä³öÏÔÊ¾
+					Count = 0;//ä¸¤è€…æ¸…é›¶ä»¥é‡æ–°è¾“å…¥å¯†ç 
+					LCD_ShowNum(2,1,Password,4);//è¾“å‡ºæ˜¾ç¤º
 				}
 				else
 				{
@@ -39,7 +39,7 @@ void main()
 					LCD_ShowNum(2,1,Password,4);
 				}
 			} 
-			if(KeyNum == 12)//È¡ÏûÊäÈë
+			if(KeyNum == 12)//å–æ¶ˆè¾“å…¥
 			{
 				Password = 0;
 				Count = 0;

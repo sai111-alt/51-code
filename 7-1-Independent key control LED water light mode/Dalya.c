@@ -1,9 +1,9 @@
 #include "Delay.h"
 
 //引脚配置：
-sbit LCD_RS=P2^6;
-sbit LCD_RW=P2^5;
-sbit LCD_EN=P2^7;
+sbit LCD_RS = P2^6;
+sbit LCD_RW = P2^5;
+sbit LCD_EN = P2^7;
 #define LCD_DataPort P0
 
 //函数定义：
@@ -238,8 +238,7 @@ void Delay(unsigned int xms)	//@12MHz
 		}
 }
 
-
-void NixieTube(unsigned char Location,Number)
+void NixieTube(unsigned char Location, unsigned char Number)
 {
 	unsigned char NixieTable[]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07,0x7F,0x6F};
 	switch(Location)
@@ -258,6 +257,7 @@ void NixieTube(unsigned char Location,Number)
 	P0=0x00;
 }
 
+//作用是获取矩阵键盘，范围为0~16，无按键按下返回值为0
 unsigned char MatrixKeyboard()
 {
 	unsigned char KeyNumber=0;
@@ -296,5 +296,52 @@ unsigned char MatrixKeyboard()
 	return KeyNumber;
 }
 
+void Timer0Init() //1ms@12MHz
+{
+	TMOD &= 0xF0;//把TMOD的低四位清零，高四位保持不变
+	TMOD |= 0x01;//把TMOD的最低位置1，其他7位保持不变
+	//这样做的好处就在于可以只操作TMOD的其中某些位而不影响其他位
+	
+	TF0=0;//设置T0定时器溢出标志位为0
+	TR0=1;//即启动定时器开始计时
+	
+	TH0 = 0xFC;				//设置定时初始值为64535+1
+	TL0 = 0x18;				
+//另一写法
+//	TH0=64535/256;//作用即得到64535转16进制后的高8位，这里除的结果只取整数，不取小数
+//								（结果即十进制的252，转16进制就是FC，刚好就是64535的十六进制高8位）
+//	TL0=64535%256+1;//结果即64535转16进制后的低8位（同理，自己计算），+1是因为定时器
+//最大定时为65535，而定时器要到65536才溢出，所以64535到65536是1001，多了1微秒，这样定时就是1.001ms
 
+	ET0=1;//T0对应的中断开关闭合
+	EA=1;//中断总开关闭合
+	PT0=0;//设置中断优先级为低级
+}
 
+/*上面的的定时器初值程序要配合下面的定时器中断程序模板，只不过中断程序要写到主函数文件与主函数配合
+void Timer0_Routine() interrupt 1 //定时器T0的中断程序命名，这是标准定义，不能随意更改
+{
+	static unsigned int T0Count;//静态变量使得该变量出了此函数仍然不会被销毁
+	TH0=0xFC;//每次计时计完后需要重新赋初值，若
+	TL0=0x18;//不赋初值，它会默认重0开始计时
+	T0Count++;
+	if(T0Count>=1000)
+	{
+		T0Count=0;
+
+	}
+}
+*/
+
+//作用是获取独立按键，范围为0~4，无按键按下返回值为0
+unsigned char IndependentKey()
+{
+	unsigned char KeyNumber=0;
+	
+	if(P3_1==0){Delay(100);while(P3_1==0);Delay(100);KeyNumber=1;}
+	if(P3_0==0){Delay(100);while(P3_0==0);Delay(100);KeyNumber=2;}
+	if(P3_2==0){Delay(100);while(P3_2==0);Delay(100);KeyNumber=3;}
+	if(P3_3==0){Delay(100);while(P3_3==0);Delay(100);KeyNumber=4;}	
+	
+	return KeyNumber;
+}

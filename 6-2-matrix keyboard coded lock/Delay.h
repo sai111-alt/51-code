@@ -3,7 +3,7 @@
 
 #include <REGX52.H>
 
-//ÓÃ»§µ÷ÓÃº¯Êý£º
+//ç”¨æˆ·è°ƒç”¨å‡½æ•°ï¼š
 void LCD_Init();
 void LCD_ShowChar(unsigned char Line,unsigned char Column,char Char);
 void LCD_ShowString(unsigned char Line,unsigned char Column,char *String);

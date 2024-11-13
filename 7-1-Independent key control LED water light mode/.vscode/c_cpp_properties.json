@@ -1,0 +1,37 @@
+{
+  "configurations": [
+    {
+      "name": "Target 1",
+      "includePath": [
+        "e:\\学习\\学习文件\\电子              学习文件\\51单片机\\51-code\\7-1-Independent key control LED water light mode",
+        "D:\\RJ\\Keil5\\C51\\INC\\Atmel"
+      ],
+      "defines": [
+        "__C51__",
+        "__VSCODE_C51__",
+        "reentrant=",
+        "compact=",
+        "small=",
+        "large=",
+        "data=",
+        "idata=",
+        "pdata=",
+        "bdata=",
+        "xdata=",
+        "code=",
+        "bit=char",
+        "sbit=char",
+        "sfr=char",
+        "sfr16=int",
+        "sfr32=int",
+        "interrupt=",
+        "using=",
+        "_at_=",
+        "_priority_=",
+        "_task_="
+      ],
+      "intelliSenseMode": "${default}"
+    }
+  ],
+  "version": 4
+}
