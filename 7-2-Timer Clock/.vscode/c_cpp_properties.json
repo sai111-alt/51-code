@@ -3,7 +3,9 @@
         {
             "name": "Target 1",
             "includePath": [
-                "e:\\学习\\学习文件\\电子              学习文件\\51单片机\\51-code\\7-1-Independent key control LED water light mode"
+                "D:\\RJ\\Keil5\\C51\\INC",
+                "D:\\RJ\\Keil5\\C51\\INC\\Atmel",
+                "e:\\学习\\学习文件\\电子              学习文件\\51单片机\\51-code\\7-2-Timer Clock"
             ],
             "defines": [
                 "__C51__",
