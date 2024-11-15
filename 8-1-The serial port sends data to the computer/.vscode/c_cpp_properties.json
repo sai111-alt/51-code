@@ -5,7 +5,7 @@
             "includePath": [
                 "D:\\RJ\\Keil5\\C51\\INC",
                 "D:\\RJ\\Keil5\\C51\\INC\\Atmel",
-                "e:\\学习\\学习文件\\电子              学习文件\\51单片机\\51-code\\8-1-The serial port sends data to the computer"
+                "d:\\Desktop\\8-1-The serial port sends data to the computer"
             ],
             "defines": [
                 "__C51__",

@@ -21,4 +21,7 @@ void Timer0Init();
 
 unsigned char IndependentKey();
 
+void UART_Init();
+void UART_SendByte(unsigned char Byte);
+
 #endif

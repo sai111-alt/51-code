@@ -1,10 +1,10 @@
-C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 22:31:35 PAGE 1   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/15/2024 18:38:26 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE DALYA
 OBJECT MODULE PLACED IN .\Objects\Dalya.obj
-COMPILER INVOKED BY: D:\RJ\Keil5\C51\BIN\C51.EXE Dalya.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\Da
-                    -lya.lst) TABS(2) OBJECT(.\Objects\Dalya.obj)
+COMPILER INVOKED BY: D:\RJ\Keil5\C51\BIN\C51.EXE Dalya.c OPTIMIZE(8,SPEED) BROWSE INCDIR(D:\RJ\Keil5\C51\INC;D:\RJ\Keil5
+                    -\C51\INC\Atmel) DEBUG OBJECTEXTEND PRINT(.\Listings\Dalya.lst) TABS(2) OBJECT(.\Objects\Dalya.obj)
 
 line level    source
 
@@ -62,7 +62,7 @@ line level    source
   52   1        LCD_RW = 0;
   53   1        LCD_DataPort = Data;
   54   1        LCD_EN = 1;
-C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 22:31:35 PAGE 2   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/15/2024 18:38:26 PAGE 2   
 
   55   1        LCD_Delay();
   56   1        LCD_EN = 0;
@@ -126,7 +126,7 @@ line level    source
  114   1        LCD_SetCursor(Line, Column);
  115   1        for (i = 0; String[i] != '\0'; i++)
  116   1        {
-C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 22:31:35 PAGE 3   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/15/2024 18:38:26 PAGE 3   
 
  117   2          LCD_WriteData(String[i]);
  118   2        }
@@ -190,7 +190,7 @@ line level    source
  176   1        for (i = Length; i > 0; i--)
  177   1        {
  178   2          LCD_WriteData(Number1 / LCD_Pow(10, i - 1) % 10 + '0');
-C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 22:31:35 PAGE 4   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/15/2024 18:38:26 PAGE 4   
 
  179   2        }
  180   1      }
@@ -254,7 +254,7 @@ line level    source
  238   3          } while (--i);
  239   2        }
  240   1      }
-C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 22:31:35 PAGE 5   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/15/2024 18:38:26 PAGE 5   
 
  241          
  242          void NixieTube(unsigned char Location, unsigned char Number)
@@ -318,7 +318,7 @@ line level    source
              -��，
  300   1                 比如S1被按下，那么电路导通，会使得P1_7=0;反之，若P1_7=0,则S1被按下，
  301   1                 所以我们依次判断对应4个IO口是否为0就可以知道哪个按键被按下了，
-C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 22:31:35 PAGE 6   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/15/2024 18:38:26 PAGE 6   
 
  302   1                 然后依次切换对应列，逐个扫描就能识别整个矩阵键盘哪个按键被按下了。
              -*/
@@ -382,7 +382,7 @@ line level    source
  360   2          KeyNumber = 10;
  361   2        }
  362   1        if (P1_4 == 0)
-C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 22:31:35 PAGE 7   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/15/2024 18:38:26 PAGE 7   
 
  363   1        {
  364   2          Delay(100);
@@ -446,7 +446,7 @@ line level    source
  422   2          KeyNumber = 8;
  423   2        }
  424   1        if (P1_5 == 0)
-C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 22:31:35 PAGE 8   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/15/2024 18:38:26 PAGE 8   
 
  425   1        {
  426   2          Delay(100);
@@ -474,7 +474,7 @@ line level    source
  448   1        // 这样做的好处就在于可以只操作TMOD的其中某些位而不影响其他位
  449   1      
  450   1        TF0 = 0; // 设置T0定时器溢出标志位为0
- 451   1        TR0 = 1; // 即启动定时器开始计时
+ 451   1        TR0 = 1; // 即启动定时器0开始计时
  452   1      
  453   1        TH0 = 0xFC; // 设置定时初始值为64535+1
  454   1        TL0 = 0x18;
@@ -510,7 +510,7 @@ line level    source
  479          */
  480          
  481          // 作用是获取独立按键，范围为0~4，无按键按下返回值为0
-C51 COMPILER V9.59.0.0   DALYA                                                             11/13/2024 22:31:35 PAGE 9   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/15/2024 18:38:26 PAGE 9   
 
  482          unsigned char IndependentKey()
  483          {
@@ -551,10 +551,41 @@ line level    source
  518   1      
  519   1        return KeyNumber;
  520   1      }
+ 521          
+ 522          void UART_Init() // 波特率4800
+ 523          {
+ 524   1        SCON = 0x50;  // 其他初始化为0，而选择工作方式为1
+ 525   1        PCON |= 0x80; // 使能波特率加倍，从而减少误差
+ 526   1        // 注意51的串口只能配置定时器1
+ 527   1        TMOD &= 0x0F;
+ 528   1        TMOD |= 0x20; // 串口需要定时器1设置为8位自动重装模式
+ 529   1        // 8位自动重装模式就是只赋一次初值，后面自动装载，而无需再中断程序中再�
+             -�
+ 530   1      
+ 531   1        // 这里无需设置溢出标志位，因为只要定时器1在计数有溢出就会生成波特率
+ 532   1        TR1 = 1; // 即启动定时器1开始计时
+ 533   1      
+ 534   1        TH1 = 0xF4; // 设置定时器1初值
+ 535   1        TL1 = 0xF4;
+ 536   1      
+ 537   1        ET1 = 0; // 禁止定时器中断,这里不需要定时器中断
+ 538   1      }
+ 539          
+ 540          void UART_SendByte(unsigned char Byte)
+ 541          {
+ 542   1        SBUF = Byte;  // SBUF负责接收/发送数据
+C51 COMPILER V9.59.0.0   DALYA                                                             11/15/2024 18:38:26 PAGE 10  
+
+ 543   1        while (TI == 0) // TI是发送控制器，当发送完成后TI=0，否则为1，
+ 544   1        {       // 这里不可以一直发送，所以需要知道TI发送完后后才能继续发送
+ 545   2          ;
+ 546   2        }
+ 547   1        TI = 0; // 当TI=1后，必须用软件复位，即TI=0;
+ 548   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    943    ----
+   CODE SIZE        =    974    ----
    CONSTANT SIZE    =     10    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
