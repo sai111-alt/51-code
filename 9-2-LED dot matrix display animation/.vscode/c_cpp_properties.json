@@ -5,7 +5,7 @@
             "includePath": [
                 "D:\\RJ\\Keil5\\C51\\INC",
                 "D:\\RJ\\Keil5\\C51\\INC\\Atmel",
-                "e:\\学习\\学习文件\\电子              学习文件\\51单片机\\51-code\\9-1-LED dot matrix display graphics"
+                "d:\\Desktop\\9-2-LED dot matrix display animation"
             ],
             "defines": [
                 "__C51__",

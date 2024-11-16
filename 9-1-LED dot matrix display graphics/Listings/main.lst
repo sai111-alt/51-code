@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   MAIN                                                              11/15/2024 22:57:30 PAGE 1   
+C51 COMPILER V9.59.0.0   MAIN                                                              11/16/2024 21:34:07 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
@@ -10,35 +10,29 @@ line level    source
 
    1          #include "Delay.h"
    2          
-   3          unsigned char Sec;
-   4          
-   5          void main()
-   6          {
-   7   1        UART_Init();
-   8   1        while(1)
-   9   1        {
-  10   2          ;
-  11   2        }
-  12   1      }
-  13          
-  14          void UART_Routine() interrupt 4 //interrupt 4用于将此函数定义为串口中断的程序
-  15          {
-  16   1        if(RI==1)//接受中断请求标志位，1即接受，因为发送和接受中断标志位是用的同一
-             -个或门，
-  17   1        {    // 所以这里我们需要判断究竟是发送还是接受触发的中断
-  18   2          P2 = ~SBUF;
-  19   2          UART_SendByte(SBUF);
-  20   2          RI = 0; // RI不能自动复位，需程序复位，以便下一次的判断
-  21   2        }
-  22   1      }
+   3          void main()
+   4          {
+   5   1        MatrixLED_Init();
+   6   1        while (1)
+   7   1        {
+   8   2          MatrixLED_Show(0, 0x3C);
+   9   2          MatrixLED_Show(1, 0x42);
+  10   2          MatrixLED_Show(2, 0xA9);
+  11   2          MatrixLED_Show(3, 0x85);
+  12   2          MatrixLED_Show(4, 0x85);
+  13   2          MatrixLED_Show(5, 0xA9);
+  14   2          MatrixLED_Show(6, 0x42);
+  15   2          MatrixLED_Show(7, 0x3C);
+  16   2        }
+  17   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     76    ----
+   CODE SIZE        =     61    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      1    ----
+   DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
