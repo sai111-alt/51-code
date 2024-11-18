@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   DALYA                                                             11/16/2024 21:34:07 PAGE 1   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/18/2024 19:25:05 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE DALYA
@@ -62,7 +62,7 @@ line level    source
   52   1      }
   53          
   54          /**
-C51 COMPILER V9.59.0.0   DALYA                                                             11/16/2024 21:34:07 PAGE 2   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/18/2024 19:25:05 PAGE 2   
 
   55           * @brief  LCD1602设置光标位置
   56           * @param  Line 行位置，范围：1~2
@@ -126,7 +126,7 @@ line level    source
  114          
  115          /**
  116           * @brief  返回值=X的Y次方
-C51 COMPILER V9.59.0.0   DALYA                                                             11/16/2024 21:34:07 PAGE 3   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/18/2024 19:25:05 PAGE 3   
 
  117           */
  118          int LCD_Pow(int X, int Y)
@@ -190,7 +190,7 @@ line level    source
  176          /**
  177           * @brief  在LCD1602指定位置开始以十六进制显示所给数字
  178           * @param  Line 起始行位置，范围：1~2
-C51 COMPILER V9.59.0.0   DALYA                                                             11/16/2024 21:34:07 PAGE 4   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/18/2024 19:25:05 PAGE 4   
 
  179           * @param  Column 起始列位置，范围：1~16
  180           * @param  Number 要显示的数字，范围：0~0xFFFF
@@ -254,7 +254,7 @@ line level    source
  238   1        unsigned char NixieTable[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F};
  239   1        switch (Location)
  240   1        {
-C51 COMPILER V9.59.0.0   DALYA                                                             11/16/2024 21:34:07 PAGE 5   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/18/2024 19:25:05 PAGE 5   
 
  241   2        case 1:
  242   2          P2_4 = 1;
@@ -318,7 +318,7 @@ line level    source
  300   1      
  301   1        P1 = 0xFF;
  302   1        P1_3 = 0; /*结合电路原理图，当P1_3=0，其他列为1时，则检测第1列，当有按键按下�
-C51 COMPILER V9.59.0.0   DALYA                                                             11/16/2024 21:34:07 PAGE 6   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/18/2024 19:25:05 PAGE 6   
 
              -��，
  303   1                 比如S1被按下，那么电路导通，会使得P1_7=0;反之，若P1_7=0,则S1被按下，
@@ -382,7 +382,7 @@ line level    source
  360   2          while (P1_7 == 0)
  361   2            ;
  362   2          Delay(100);
-C51 COMPILER V9.59.0.0   DALYA                                                             11/16/2024 21:34:07 PAGE 7   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/18/2024 19:25:05 PAGE 7   
 
  363   2          KeyNumber = 10;
  364   2        }
@@ -446,7 +446,7 @@ line level    source
  422   2          while (P1_7 == 0)
  423   2            ;
  424   2          Delay(100);
-C51 COMPILER V9.59.0.0   DALYA                                                             11/16/2024 21:34:07 PAGE 8   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/18/2024 19:25:05 PAGE 8   
 
  425   2          KeyNumber = 8;
  426   2        }
@@ -510,7 +510,7 @@ line level    source
  478              T0Count=0;
  479          
  480            }
-C51 COMPILER V9.59.0.0   DALYA                                                             11/16/2024 21:34:07 PAGE 9   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/18/2024 19:25:05 PAGE 9   
 
  481          }
  482          */
@@ -574,7 +574,7 @@ line level    source
  539   1      
  540   1        ET1 = 0; // 禁止定时器中断,这里不需要定时器中断
  541   1      
-C51 COMPILER V9.59.0.0   DALYA                                                             11/16/2024 21:34:07 PAGE 10  
+C51 COMPILER V9.59.0.0   DALYA                                                             11/18/2024 19:25:05 PAGE 10  
 
  542   1        EA = 1; // 总中断开关闭合
  543   1        ES = 1; // 串口中断开关闭合，当发送/接受数据时，则触发中断
@@ -634,16 +634,112 @@ line level    source
  595   1        Delay(1); // 与数码管一样，这里LED点阵也要消影
  596   1        P0 = 0xFF;
  597   1      }
+ 598          
+ 599          void DS1302_Init(void)
+ 600          {
+ 601   1        DS1302_SCLK = 0;
+C51 COMPILER V9.59.0.0   DALYA                                                             11/18/2024 19:25:05 PAGE 11  
+
+ 602   1        DS1302_CE = 0;
+ 603   1      }
+ 604          
+ 605          void DS1302_WriteByte(unsigned char command, unsigned char Date)
+ 606          {
+ 607   1        unsigned char i;
+ 608   1        DS1302_CE = 1;
+ 609   1      
+ 610   1        for (i = 0; i < 8; i++)
+ 611   1        {
+ 612   2          DS1302_IO = command & (0x01 << i);
+ 613   2          DS1302_SCLK = 1;
+ 614   2          DS1302_SCLK = 0;
+ 615   2        }
+ 616   1      
+ 617   1        for (i = 0; i < 8; i++)
+ 618   1        {
+ 619   2          DS1302_IO = Date & (0x01 << i);
+ 620   2          DS1302_SCLK = 1;
+ 621   2          DS1302_SCLK = 0;
+ 622   2        }
+ 623   1        DS1302_CE = 0;
+ 624   1      }
+ 625          
+ 626          unsigned char DS1302_ReadByte(unsigned char command)
+ 627          {
+ 628   1        unsigned char i;
+ 629   1        unsigned char Data = 0x00;
+ 630   1        command |= 0x01; // 这一句的作用就在于，给函数DS1302_ReadByte写的地址，然后
+ 631   1                //最后一位置1就是对应读的地址
+ 632   1      
+ 633   1        DS1302_CE = 1;
+ 634   1        for (i = 0; i < 8; i++)
+ 635   1        {
+ 636   2          DS1302_IO = command & (0x01 << i);
+ 637   2          DS1302_SCLK = 0;
+ 638   2          DS1302_SCLK = 1;
+ 639   2        }
+ 640   1      
+ 641   1        for (i = 0; i < 8; i++)
+ 642   1        {
+ 643   2          DS1302_SCLK = 1;
+ 644   2          DS1302_SCLK = 0;
+ 645   2          if (DS1302_IO)
+ 646   2          {
+ 647   3            Data |= (0x01 << i);
+ 648   3          }
+ 649   2        }
+ 650   1        DS1302_CE = 0;
+ 651   1        DS1302_IO = 0;
+ 652   1      
+ 653   1        return Data;
+ 654   1      }
+ 655          
+ 656          unsigned char DS1302_Time[7] = {19, 11, 16, 12, 59, 55, 6};
+ 657          
+ 658          void DS1302_SetTime(void)
+ 659          {
+ 660   1        DS1302_WriteByte(DS1302_WP, 0x00);// 关闭写保护
+ 661   1      
+ 662   1        DS1302_WriteByte(DS1302_YEAR, DS1302_Time[0] / 10 * 16 + DS1302_Time[0] % 10);
+ 663   1        DS1302_WriteByte(DS1302_MONTH, DS1302_Time[1] / 10 * 16 + DS1302_Time[1] % 10);
+C51 COMPILER V9.59.0.0   DALYA                                                             11/18/2024 19:25:05 PAGE 12  
+
+ 664   1        DS1302_WriteByte(DS1302_DATE, DS1302_Time[2] / 10 * 16 + DS1302_Time[2] % 10);
+ 665   1        DS1302_WriteByte(DS1302_HOUR, DS1302_Time[3] / 10 * 16 + DS1302_Time[3] % 10);
+ 666   1        DS1302_WriteByte(DS1302_MINUTE, DS1302_Time[4] / 10 * 16 + DS1302_Time[4] % 10);
+ 667   1        DS1302_WriteByte(DS1302_SECOND, DS1302_Time[5] / 10 * 16 + DS1302_Time[5] % 10);
+ 668   1        DS1302_WriteByte(DS1302_DAY, DS1302_Time[6] / 10 * 16 + DS1302_Time[6] % 10);
+ 669   1      
+ 670   1        DS1302_WriteByte(DS1302_WP, 0x80); // 打开写保护
+ 671   1      }
+ 672          
+ 673          void DS1302_ReadTime(void)
+ 674          {
+ 675   1        unsigned char Temp;//中间变量
+ 676   1      
+ 677   1        Temp = DS1302_ReadByte(DS1302_YEAR);
+ 678   1        DS1302_Time[0] = Temp / 16 * 10 + Temp % 16;
+ 679   1        Temp = DS1302_ReadByte(DS1302_MONTH);
+ 680   1        DS1302_Time[1] = Temp / 16 * 10 + Temp % 16;
+ 681   1        Temp = DS1302_ReadByte(DS1302_DATE);
+ 682   1        DS1302_Time[2] = Temp / 16 * 10 + Temp % 16;
+ 683   1        Temp = DS1302_ReadByte(DS1302_HOUR);
+ 684   1        DS1302_Time[3] = Temp / 16 * 10 + Temp % 16;
+ 685   1        Temp = DS1302_ReadByte(DS1302_MINUTE);
+ 686   1        DS1302_Time[4] = Temp / 16 * 10 + Temp % 16;
+ 687   1        Temp = DS1302_ReadByte(DS1302_SECOND);
+ 688   1        DS1302_Time[5] = Temp / 16 * 10 + Temp % 16;
+ 689   1        Temp = DS1302_ReadByte(DS1302_DAY);
+ 690   1        DS1302_Time[6] = Temp / 16 * 10 + Temp % 16;
+ 691   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1073    ----
-C51 COMPILER V9.59.0.0   DALYA                                                             11/16/2024 21:34:07 PAGE 11  
-
+   CODE SIZE        =   1600    ----
    CONSTANT SIZE    =     10    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----      41
+   DATA SIZE        =      7      41
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
