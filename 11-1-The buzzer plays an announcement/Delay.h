@@ -2,6 +2,7 @@
 #define __DELAY_H__
 
 #include <REGX52.H>
+#include <INTRINS.H>
 
 // 引脚配置：
 sbit LCD_RS = P2 ^ 6;
@@ -9,10 +10,13 @@ sbit LCD_RW = P2 ^ 5;
 sbit LCD_EN = P2 ^ 7;
 #define LCD_DataPort P0
 
-// 这里用位声明，作用于#define类似，注意P3^5就是P3_5,^不是异或操作，其他同理
+// 这里用位声明，作用于#define类似，注意P3^5就是P3_5,^不是异或操作，这是写法规范，其他同理
 sbit RCK = P3 ^ 5; // RCK即74HC595的RCLK
 sbit SCK = P3 ^ 6; // 同理，即SRCLK
 sbit SER = P3 ^ 4;
+
+//蜂鸣器定义
+sbit Buzzer = P2 ^ 5;
 
 //DS1302引脚配置和其他定义
 sbit DS1302_SCLK = P3 ^ 6;
@@ -58,5 +62,7 @@ void DS1302_WriteByte(unsigned char command, unsigned char Date);
 unsigned char DS1302_ReadByte(unsigned char command);
 void DS1302_SetTime(void);
 void DS1302_ReadTime(void);
+
+void Buzzer_Time(unsigned int ms);
 
 #endif

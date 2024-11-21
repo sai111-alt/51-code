@@ -288,9 +288,10 @@ void NixieTube(unsigned char Location, unsigned char Number)
 	// 的数据会串到下一个位选上，从而产生影子
 	// 所以我们在这个逻辑之间加上一个清零就好了，让数码馆不显示
 	// 即：位选 段选 清零 下一个数码管位选 段选
-	// 以下程序用于数码管消影：
-	Delay(1);  // 先延时1ms，如果立马清零，只是会让原来的数码管变暗
-	P0 = 0x00; // 清零
+	// 以下程序用于数码管消影(若只需静态显示1位数码管，则无需下面的代码)：
+
+	//Delay(1);  // 先延时1ms，如果立马清零，只是会让原来的数码管变暗
+	//P0 = 0x00; // 清零
 }
 
 // 作用是获取矩阵键盘，范围为0~16，无按键按下返回值为0
@@ -688,4 +689,24 @@ void DS1302_ReadTime(void)
 	DS1302_Time[5] = Temp / 16 * 10 + Temp % 16;
 	Temp = DS1302_ReadByte(DS1302_DAY);
 	DS1302_Time[6] = Temp / 16 * 10 + Temp % 16;
+}
+
+void Buzzer_Delay500us(void) //@11.0592MHz
+{
+	unsigned char data i;
+
+	_nop_();
+	i = 227;
+	while (--i)
+		;
+}
+
+void Buzzer_Time(unsigned int ms)
+{
+	unsigned int i = 0;
+	for (i = 0; i < ms*2; i++)
+	{
+		Buzzer = !Buzzer;
+		Buzzer_Delay500us();
+	}
 }
