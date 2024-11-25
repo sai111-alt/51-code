@@ -4,8 +4,7 @@
             "name": "Target 1",
             "includePath": [
                 "D:\\RJ\\Keil5\\C51\\INC",
-                "e:\\学习\\学习文件\\电子              学习文件\\51单片机\\51-code\\2-1-led",
-                "D:\\RJ\\Keil5\\C51\\INC\\Atmel"
+                "e:\\51-code\\2-1-led"
             ],
             "defines": [
                 "__C51__",

@@ -5,7 +5,7 @@
             "includePath": [
                 "D:\\RJ\\Keil5\\C51\\INC",
                 "D:\\RJ\\Keil5\\C51\\INC\\Atmel",
-                "d:\\Desktop\\12-1 AT24C02 data storage"
+                "e:\\51-code\\12-1 AT24C02 data storage"
             ],
             "defines": [
                 "__C51__",

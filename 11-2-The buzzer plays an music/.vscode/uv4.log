@@ -1,7 +1,5 @@
 Build target 'Target 1'
 compiling main.c...
-linking...
-Program Size: data=92.0 xdata=0 code=1123
-creating hex file from ".\Objects\project"...
-".\Objects\project" - 0 Error(s), 0 Warning(s).
+--- Error: failed to execute 'D:\RJ\Keilv5\C51\BIN\C51.EXE'
+Target not created.
 Build Time Elapsed:  00:00:00
