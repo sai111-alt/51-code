@@ -689,3 +689,98 @@ void DS1302_ReadTime(void)
 	Temp = DS1302_ReadByte(DS1302_DAY);
 	DS1302_Time[6] = Temp / 16 * 10 + Temp % 16;
 }
+
+void I2C_Start(void)//I2C开始
+{
+	I2C_SCL = 1;
+	I2C_SDA = 1;
+	I2C_SDA = 0;
+	I2C_SCL = 0;
+}
+
+void I2C_Stop(void)//I2C停止
+{ 
+	I2C_SDA = 0;
+	I2C_SCL = 1;
+	I2C_SDA = 1;
+}
+
+void I2C_SendByte(unsigned char Byte)//I2C发送一个字节，Byte即要发送的字节
+{
+	unsigned char i;
+	for (i = 0; i < 8;i++)
+	{
+		I2C_SDA = Byte & (0x80 >> i); // 依次取出Byte的位
+		I2C_SCL = 1;
+		I2C_SCL = 0;
+	}
+}
+
+unsigned char I2C_ReceiveByte(void)//I2C接收一个字节并返回
+{
+	unsigned char Byte = 0x00;
+	unsigned char i = 0;
+
+	I2C_SDA = 1;
+
+	for (i = 0; i < 8; i++)
+	{
+		I2C_SCL = 1;
+		if (I2C_SDA)
+		{
+			Byte |= (0x80 >> i);
+		}
+		I2C_SCL = 0;
+	}
+		
+	return Byte;
+}
+
+void I2C_SendAck(unsigned char AckBit) // I2C主机发送应答，AckBit为应答，0应答，1非应答
+{
+	I2C_SDA = AckBit;
+	I2C_SCL = 1;
+	I2C_SCL = 0;
+}
+
+unsigned char I2C_ReceiveAck(void)//I2C主机接收应答
+{
+	unsigned char AckBit;
+	I2C_SDA = 1;
+	I2C_SCL = 1;
+	AckBit = I2C_SDA;
+	I2C_SCL = 0;  
+	return AckBit;
+}
+
+// 注意输入的WordAddress是8位地址，所以取值应是0~255
+void AT24C02_WriterByte(unsigned char WordAddress,unsigned char Data)
+{
+	I2C_Start();
+	I2C_SendByte(AT24C02_ADDRESS);
+	I2C_ReceiveAck();
+	I2C_SendByte(WordAddress);
+	I2C_ReceiveAck();
+	I2C_SendByte(Data);
+	I2C_ReceiveAck();
+	I2C_Stop();
+}
+
+// 注意输入的WordAddress是8位地址，所以取值应是0~255
+unsigned char AT24C02_ReadByte(unsigned char WordAddress)
+{
+	unsigned char Data = 0;
+	I2C_Start();
+	I2C_SendByte(AT24C02_ADDRESS);
+	I2C_ReceiveAck();
+	I2C_SendByte(WordAddress);
+	I2C_ReceiveAck();
+	I2C_Start();
+	I2C_SendByte(AT24C02_ADDRESS | 0x01);
+	I2C_ReceiveAck();
+	Data = I2C_ReceiveByte();
+	I2C_SendAck(1);
+	I2C_Stop();
+
+	return Data;
+}

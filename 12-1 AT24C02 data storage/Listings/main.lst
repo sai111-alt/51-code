@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   MAIN                                                              11/25/2024 20:50:24 PAGE 1   
+C51 COMPILER V9.59.0.0   MAIN                                                              11/26/2024 19:52:16 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
@@ -10,26 +10,60 @@ line level    source
 
    1          #include "Delay.h"
    2          
-   3          void main()
-   4          {
-   5   1        LCD_Init();
-   6   1        LCD_ShowString(1, 1, "hello");
-   7   1        while (1)
-   8   1        {
-   9   2      
-  10   2        }
-  11   1      }
+   3          unsigned char KeyNum = 0;
+   4          unsigned int Num = 0;
+   5          
+   6          void main()
+   7          {
+   8   1        LCD_Init();
+   9   1        LCD_ShowNum(1, 1, Num, 5);
+  10   1        while (1)
+  11   1        {
+  12   2          KeyNum = IndependentKey();
+  13   2          if (KeyNum == 1)
+  14   2          {
+  15   3            Num++;
+  16   3            LCD_ShowNum(1, 1, Num, 5);
+  17   3          }
+  18   2          if (KeyNum == 2)
+  19   2          {
+  20   3            Num--;
+  21   3            LCD_ShowNum(1, 1, Num, 5);
+  22   3          }
+  23   2          if (KeyNum == 3)
+  24   2          {
+  25   3            AT24C02_WriterByte(0, Num % 256); // 取出Num的低8位
+  26   3            Delay(5);
+  27   3            AT24C02_WriterByte(1, Num / 256); // 取出Num的高8位
+  28   3            Delay(5);
+  29   3            LCD_ShowString(2, 1, "Wrtite OK");
+  30   3            Delay(1000);
+  31   3            LCD_ShowString(2, 1, "         ");
+  32   3          }
+  33   2          if (KeyNum == 4)
+  34   2          {
+  35   3            Num = AT24C02_ReadByte(0);
+  36   3            Num |= AT24C02_ReadByte(1) << 8;
+  37   3            LCD_ShowNum(1, 1, Num, 5);
+  38   3            LCD_ShowString(2, 1, "Read OK");
+  39   3            Delay(1000);
+  40   3            LCD_ShowString(2, 1, "       ");
+  41   3          }
+  42   2        }
+  43   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     18    ----
-   CONSTANT SIZE    =      6    ----
+   CODE SIZE        =    221    ----
+   CONSTANT SIZE    =     36    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----    ----
+   DATA SIZE        =      3    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
+
+C51 COMPILER V9.59.0.0   MAIN                                                              11/26/2024 19:52:16 PAGE 2   
 
 
 C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -32,6 +32,11 @@ extern char DS1302_Time[7]; // 年月日时分秒星期,extrn的作用是方便�
 #define DS1302_YEAR   0x8C
 #define DS1302_WP     0x8E
 
+//I2C定义
+sbit I2C_SCL = P2 ^ 1;
+sbit I2C_SDA = P2 ^ 0;
+#define AT24C02_ADDRESS 0xA0
+
 // 用户调用函数：
 void LCD_Init();
 void LCD_ShowChar(unsigned char Line, unsigned char Column, char Char);
@@ -64,5 +69,14 @@ void DS1302_SetTime(void);
 void DS1302_ReadTime(void);
 
 void Buzzer_Time(unsigned int ms);
+
+void I2C_Start(void);
+void I2C_Stop(void);
+void I2C_SendByte(unsigned char Byte);
+unsigned char I2C_ReceiveByte(void);
+void I2C_SendAck(unsigned char AckBit);
+unsigned char I2C_ReciveAck(void);
+void AT24C02_WriterByte(unsigned char WordAddress, unsigned char Data);
+unsigned char AT24C02_ReadByte(unsigned char WordAddress);
 
 #endif
