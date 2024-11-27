@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   MAIN                                                              11/27/2024 15:53:53 PAGE 1   
+C51 COMPILER V9.59.0.0   MAIN                                                              11/27/2024 16:52:22 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
@@ -62,7 +62,7 @@ line level    source
   52          {
   53   1        if (RunFlag)
   54   1        {
-C51 COMPILER V9.59.0.0   MAIN                                                              11/27/2024 15:53:53 PAGE 2   
+C51 COMPILER V9.59.0.0   MAIN                                                              11/27/2024 16:52:22 PAGE 2   
 
   55   2          MiniSec++;
   56   2          if (MiniSec >= 100)
@@ -107,7 +107,7 @@ line level    source
   95   1        T0Count3++;
   96   1        if (T0Count3 >= 10)
   97   1        {
-  98   2          T0Count2 = 0;
+  98   2          T0Count3 = 0;
   99   2          Sec_Loop();
  100   2        }
  101   1      }

@@ -95,7 +95,7 @@ void Timer0_Routine() interrupt 1
 	T0Count3++;
 	if (T0Count3 >= 10)
 	{
-		T0Count2 = 0;
+		T0Count3 = 0;
 		Sec_Loop();
 	}
 }
