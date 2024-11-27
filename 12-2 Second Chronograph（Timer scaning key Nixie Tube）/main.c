@@ -72,9 +72,9 @@ void Sec_Loop(void)
 
 void Timer0_Routine() interrupt 1
 {
-	static unsigned int T0Count1 = 0;
-	static unsigned int T0Count2 = 0;
-	static unsigned int T0Count3 = 0;
+	static unsigned int T0Count1;
+	static unsigned int T0Count2;
+	static unsigned int T0Count3;
 
 	TH0 = 0xFC;
 	TL0 = 0x18;

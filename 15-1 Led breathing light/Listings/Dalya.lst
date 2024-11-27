@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 1   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 17:48:23 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE DALYA
@@ -62,7 +62,7 @@ line level    source
   52   1      }
   53          
   54          /**
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 2   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 17:48:23 PAGE 2   
 
   55           * @brief  LCD1602设置光标位置
   56           * @param  Line 行位置，范围：1~2
@@ -126,7 +126,7 @@ line level    source
  114          
  115          /**
  116           * @brief  返回值=X的Y次方
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 3   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 17:48:23 PAGE 3   
 
  117           */
  118          int LCD_Pow(int X, int Y)
@@ -190,7 +190,7 @@ line level    source
  176          /**
  177           * @brief  在LCD1602指定位置开始以十六进制显示所给数字
  178           * @param  Line 起始行位置，范围：1~2
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 4   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 17:48:23 PAGE 4   
 
  179           * @param  Column 起始列位置，范围：1~16
  180           * @param  Number 要显示的数字，范围：0~0xFFFF
@@ -254,7 +254,7 @@ line level    source
  238          unsigned char NixieTable[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F, 0X00, 0x40};
  239          
  240          void Nixie_SetBuf(unsigned char Location, unsigned char Number)
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 5   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 17:48:23 PAGE 5   
 
  241          {
  242   1        Nixie_Buf[Location] = Number;
@@ -318,7 +318,7 @@ line level    source
  300   2          break;
  301   2        }
  302   1        P0 = NixieTable[Number];
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 6   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 17:48:23 PAGE 6   
 
  303   1      }
  304          
@@ -382,7 +382,7 @@ line level    source
  359   1        P1 = 0xFF;
  360   1        P1_2 = 0;
  361   1        if (P1_7 == 0)
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 7   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 17:48:23 PAGE 7   
 
  362   1        {
  363   2          Delay(100);
@@ -446,7 +446,7 @@ line level    source
  421   1        {
  422   2          Delay(100);
  423   2          while (P1_7 == 0)
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 8   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 17:48:23 PAGE 8   
 
  424   2            ;
  425   2          Delay(100);
@@ -510,7 +510,7 @@ line level    source
  481   1        //  TL0=64535%256+1;//结果即64535转16进制后的低8位（同理，自己计算），+1是因为定�
              -�器
  482   1        // 最大定时为65535，而定时器要到65536才溢出，所以64535到65536是1001，多了1微秒�
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 9   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 17:48:23 PAGE 9   
 
              -�这样定时就是1.001ms
  483   1      
@@ -574,7 +574,7 @@ line level    source
  539   1        return KeyNumber;
  540   1      }
  541          
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 10  
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 17:48:23 PAGE 10  
 
  542          void IndependentKey_Loop(void)
  543          {
@@ -638,7 +638,7 @@ line level    source
  598          void UART_Routine() interrupt 4 // interrupt 4用于将此函数定义为串口中断的程序
  599          {
  600            if (RI == 1) // 接受中断请求标志位，1即接受，因为发送和接受中断标志位是用的�
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 11  
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 17:48:23 PAGE 11  
 
              -��一个或门，
  601            {      // 所以这里我们需要判断究竟是发送还是接受触发的中断
@@ -702,7 +702,7 @@ line level    source
  659   1        {
  660   2          DS1302_IO = Date & (0x01 << i);
  661   2          DS1302_SCLK = 1;
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 12  
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 17:48:23 PAGE 12  
 
  662   2          DS1302_SCLK = 0;
  663   2        }
@@ -766,7 +766,7 @@ line level    source
  721   1        DS1302_Time[1] = Temp / 16 * 10 + Temp % 16;
  722   1        Temp = DS1302_ReadByte(DS1302_DATE);
  723   1        DS1302_Time[2] = Temp / 16 * 10 + Temp % 16;
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 13  
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 17:48:23 PAGE 13  
 
  724   1        Temp = DS1302_ReadByte(DS1302_HOUR);
  725   1        DS1302_Time[3] = Temp / 16 * 10 + Temp % 16;
@@ -830,7 +830,7 @@ line level    source
  783   1        I2C_SCL = 1;
  784   1        I2C_SCL = 0;
  785   1      }
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 14  
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 17:48:23 PAGE 14  
 
  786          
  787          unsigned char I2C_ReceiveAck(void) // I2C主机接收应答
@@ -844,7 +844,7 @@ line level    source
  795   1      }
  796          
  797          // 注意输入的WordAddress是8位地址，所以取值应是0~255
- 798          void AT24C02_WriterByte(unsigned char WordAddress, unsigned char Data)
+ 798          void AT24C02_WriteByte(unsigned char WordAddress, unsigned char Data)
  799          {
  800   1        I2C_Start();
  801   1        I2C_SendByte(AT24C02_ADDRESS);

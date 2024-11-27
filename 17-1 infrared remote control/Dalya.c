@@ -233,29 +233,9 @@ void Delay(unsigned int xms) //@12MHz
 	}
 }
 
-unsigned char Nixie_Buf[9] = {0, 10, 10, 10, 10, 10, 10, 10, 10};
-
-unsigned char NixieTable[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F, 0X00, 0x40};
-
-void Nixie_SetBuf(unsigned char Location, unsigned char Number)
+void NixieTube(unsigned char Location, unsigned char Number)
 {
-	Nixie_Buf[Location] = Number;
-}
-
-void NixieTube_Scan(unsigned char Location, unsigned char Number)
-{
-	// 要同时显示多个数码管，需要消影
-	// 显示多个数码管：是先进行这个数码的位选，再对其段选
-	// 然后再对下一个数码管进行位选，再段选，依次类推
-	// 逻辑就是：位选 段选 → 下一个数码管位选 段选
-	// 这段选到下一个位选之间，因为速度很快，会导致上个段选
-	// 的数据会串到下一个位选上，从而产生影子
-	// 所以我们在这个逻辑之间加上一个清零就好了，让数码馆不显示
-	// 即：位选 段选 清零 下一个数码管位选 段选
-	// 以下程序用于数码管消影：
-	// Delay(1);  // 先延时1ms，如果立马清零，只是会让原来的数码管变暗
-	// 这里用定时器来取代Delay的功能
-	P0 = 0x00; // 清零
+	unsigned char NixieTable[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F};
 	switch (Location)
 	{
 	case 1:
@@ -300,17 +280,17 @@ void NixieTube_Scan(unsigned char Location, unsigned char Number)
 		break;
 	}
 	P0 = NixieTable[Number];
-}
-
-void NixieTube_Loop(void) // 此函数与timer配合，每2ms执行一次此函数，即动态刷新数码管的1到8位
-{
-	static unsigned char i = 1;
-	NixieTube_Scan(i, Nixie_Buf[i]); // 这里位选与位选对应
-	i++;
-	if (i >= 9)
-	{
-		i = 1;
-	}
+	// 要同时显示多个数码管，需要消影
+	// 显示多个数码管：是先进行这个数码的位选，再对其段选
+	// 然后再对下一个数码管进行位选，再段选，依次类推
+	// 逻辑就是：位选 段选 → 下一个数码管位选 段选
+	// 这段选到下一个位选之间，因为速度很快，会导致上个段选
+	// 的数据会串到下一个位选上，从而产生影子
+	// 所以我们在这个逻辑之间加上一个清零就好了，让数码馆不显示
+	// 即：位选 段选 清零 下一个数码管位选 段选
+	// 以下程序用于数码管消影：
+	Delay(1);  // 先延时1ms，如果立马清零，只是会让原来的数码管变暗
+	P0 = 0x00; // 清零
 }
 
 // 作用是获取矩阵键盘，范围为0~16，无按键按下返回值为0
@@ -464,7 +444,7 @@ unsigned char MatrixKeyboard()
 	return KeyNumber;
 }
 
-void Timer0_Init() // 1ms@12MHz
+void Timer0Init() // 1ms@12MHz
 {
 	TMOD &= 0xF0; // 把TMOD的低四位清零，高四位保持不变
 	TMOD |= 0x01; // 把TMOD的最低位置1，其他7位保持不变，这里即设置了定时器0的模式是工作方式1：16为计数器
@@ -501,66 +481,45 @@ void Timer0_Routine() interrupt 1 //定时器T0的中断程序函数命名随意
 }
 */
 
-// 独立键盘键码
-unsigned char Key_KeyNumber = 0;
-
-// 获取当下已经被按下抬起的独立按键码
-unsigned char Key(void)
-{
-	unsigned char Temp = 0;
-	Temp = Key_KeyNumber;
-	Key_KeyNumber = 0;
-	return Temp;
-}
-
-// 作用是获取独立按键是否被按下，范围为0~4，无按键按下返回值为0
-unsigned char IndependentKey_Getstate()
+// 作用是获取独立按键，范围为0~4，无按键按下返回值为0
+unsigned char IndependentKey()
 {
 	unsigned char KeyNumber = 0;
 
 	if (P3_1 == 0)
 	{
+		Delay(100);
+		while (P3_1 == 0)
+			;
+		Delay(100);
 		KeyNumber = 1;
 	}
 	if (P3_0 == 0)
 	{
 		Delay(100);
+		while (P3_0 == 0)
+			;
+		Delay(100);
 		KeyNumber = 2;
 	}
 	if (P3_2 == 0)
 	{
+		Delay(100);
+		while (P3_2 == 0)
+			;
+		Delay(100);
 		KeyNumber = 3;
 	}
 	if (P3_3 == 0)
 	{
+		Delay(100);
+		while (P3_3 == 0)
+			;
+		Delay(100);
 		KeyNumber = 4;
 	}
 
 	return KeyNumber;
-}
-
-void IndependentKey_Loop(void)
-{
-	static unsigned char NowState = 0;
-	static unsigned char LastState = 0;
-	LastState = NowState;
-	NowState = IndependentKey_Getstate();
-	if (LastState == 1 && NowState == 0) // 当LastState = 1时，表示上个状态按键1被按下
-	{									 // 同时若NowState = 0时，则表示现在没有按键按下
-		Key_KeyNumber = 1;				 // LastState == 1 && NowState == 0则表示按键被按下了且按键现在弹起了
-	}
-	if (LastState == 2 && NowState == 0)
-	{
-		Key_KeyNumber = 2;
-	}
-	if (LastState == 3 && NowState == 0)
-	{
-		Key_KeyNumber = 3;
-	}
-	if (LastState == 4 && NowState == 0)
-	{
-		Key_KeyNumber = 4;
-	}
 }
 
 void UART_Init() // 波特率4800
@@ -731,7 +690,7 @@ void DS1302_ReadTime(void)
 	DS1302_Time[6] = Temp / 16 * 10 + Temp % 16;
 }
 
-void I2C_Start(void) // I2C开始
+void I2C_Start(void)//I2C开始
 {
 	I2C_SCL = 1;
 	I2C_SDA = 1;
@@ -739,17 +698,17 @@ void I2C_Start(void) // I2C开始
 	I2C_SCL = 0;
 }
 
-void I2C_Stop(void) // I2C停止
-{
+void I2C_Stop(void)//I2C停止
+{ 
 	I2C_SDA = 0;
 	I2C_SCL = 1;
 	I2C_SDA = 1;
 }
 
-void I2C_SendByte(unsigned char Byte) // I2C发送一个字节，Byte即要发送的字节
+void I2C_SendByte(unsigned char Byte)//I2C发送一个字节，Byte即要发送的字节
 {
 	unsigned char i;
-	for (i = 0; i < 8; i++)
+	for (i = 0; i < 8;i++)
 	{
 		I2C_SDA = Byte & (0x80 >> i); // 依次取出Byte的位
 		I2C_SCL = 1;
@@ -757,7 +716,7 @@ void I2C_SendByte(unsigned char Byte) // I2C发送一个字节，Byte即要发�
 	}
 }
 
-unsigned char I2C_ReceiveByte(void) // I2C接收一个字节并返回
+unsigned char I2C_ReceiveByte(void)//I2C接收一个字节并返回
 {
 	unsigned char Byte = 0x00;
 	unsigned char i = 0;
@@ -773,7 +732,7 @@ unsigned char I2C_ReceiveByte(void) // I2C接收一个字节并返回
 		}
 		I2C_SCL = 0;
 	}
-
+		
 	return Byte;
 }
 
@@ -784,18 +743,18 @@ void I2C_SendAck(unsigned char AckBit) // I2C主机发送应答，AckBit为应�
 	I2C_SCL = 0;
 }
 
-unsigned char I2C_ReceiveAck(void) // I2C主机接收应答
+unsigned char I2C_ReceiveAck(void)//I2C主机接收应答
 {
 	unsigned char AckBit;
 	I2C_SDA = 1;
 	I2C_SCL = 1;
 	AckBit = I2C_SDA;
-	I2C_SCL = 0;
+	I2C_SCL = 0;  
 	return AckBit;
 }
 
 // 注意输入的WordAddress是8位地址，所以取值应是0~255
-void AT24C02_WriteByte(unsigned char WordAddress, unsigned char Data)
+void AT24C02_WriterByte(unsigned char WordAddress,unsigned char Data)
 {
 	I2C_Start();
 	I2C_SendByte(AT24C02_ADDRESS);

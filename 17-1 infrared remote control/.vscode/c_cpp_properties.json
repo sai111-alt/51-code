@@ -5,7 +5,7 @@
             "includePath": [
                 "D:\\RJ\\Keil5\\C51\\INC",
                 "D:\\RJ\\Keil5\\C51\\INC\\Atmel",
-                "e:\\51-code\\15-1 Led breathing light"
+                "e:\\51-code\\17-1 infrared remote control"
             ],
             "defines": [
                 "__C51__",
