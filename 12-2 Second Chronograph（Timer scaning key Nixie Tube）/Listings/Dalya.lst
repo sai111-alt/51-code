@@ -1,0 +1,890 @@
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE DALYA
+OBJECT MODULE PLACED IN .\Objects\Dalya.obj
+COMPILER INVOKED BY: D:\RJ\Keil5\C51\BIN\C51.EXE Dalya.c OPTIMIZE(8,SPEED) BROWSE INCDIR(D:\RJ\Keil5\C51\INC;D:\RJ\Keil5
+                    -\C51\INC\Atmel) DEBUG OBJECTEXTEND PRINT(.\Listings\Dalya.lst) TABS(2) OBJECT(.\Objects\Dalya.obj)
+
+line level    source
+
+   1          #include "Delay.h"
+   2          
+   3          // 函数定义：
+   4          /**
+   5           * @brief  LCD1602延时函数，12MHz调用可延时1ms
+   6           * @param  无
+   7           * @retval 无
+   8           */
+   9          void LCD_Delay()
+  10          {
+  11   1        unsigned char i, j;
+  12   1      
+  13   1        i = 2;
+  14   1        j = 239;
+  15   1        do
+  16   1        {
+  17   2          while (--j)
+  18   2            ;
+  19   2        } while (--i);
+  20   1      }
+  21          
+  22          /**
+  23           * @brief  LCD1602写命令
+  24           * @param  Command 要写入的命令
+  25           * @retval 无
+  26           */
+  27          void LCD_WriteCommand(unsigned char Command)
+  28          {
+  29   1        LCD_RS = 0;
+  30   1        LCD_RW = 0;
+  31   1        LCD_DataPort = Command;
+  32   1        LCD_EN = 1;
+  33   1        LCD_Delay();
+  34   1        LCD_EN = 0;
+  35   1        LCD_Delay();
+  36   1      }
+  37          
+  38          /**
+  39           * @brief  LCD1602写数据
+  40           * @param  Data 要写入的数据
+  41           * @retval 无
+  42           */
+  43          void LCD_WriteData(unsigned char Data)
+  44          {
+  45   1        LCD_RS = 1;
+  46   1        LCD_RW = 0;
+  47   1        LCD_DataPort = Data;
+  48   1        LCD_EN = 1;
+  49   1        LCD_Delay();
+  50   1        LCD_EN = 0;
+  51   1        LCD_Delay();
+  52   1      }
+  53          
+  54          /**
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 2   
+
+  55           * @brief  LCD1602设置光标位置
+  56           * @param  Line 行位置，范围：1~2
+  57           * @param  Column 列位置，范围：1~16
+  58           * @retval 无
+  59           */
+  60          void LCD_SetCursor(unsigned char Line, unsigned char Column)
+  61          {
+  62   1        if (Line == 1)
+  63   1        {
+  64   2          LCD_WriteCommand(0x80 | (Column - 1));
+  65   2        }
+  66   1        else if (Line == 2)
+  67   1        {
+  68   2          LCD_WriteCommand(0x80 | (Column - 1 + 0x40));
+  69   2        }
+  70   1      }
+  71          
+  72          /**
+  73           * @brief  LCD1602初始化函数
+  74           * @param  无
+  75           * @retval 无
+  76           */
+  77          void LCD_Init()
+  78          {
+  79   1        LCD_WriteCommand(0x38); // 八位数据接口，两行显示，5*7点阵
+  80   1        LCD_WriteCommand(0x0c); // 显示开，光标关，闪烁关
+  81   1        LCD_WriteCommand(0x06); // 数据读写操作后，光标自动加一，画面不动
+  82   1        LCD_WriteCommand(0x01); // 光标复位，清屏
+  83   1      }
+  84          
+  85          /**
+  86           * @brief  在LCD1602指定位置上显示一个字符
+  87           * @param  Line 行位置，范围：1~2
+  88           * @param  Column 列位置，范围：1~16
+  89           * @param  Char 要显示的字符
+  90           * @retval 无
+  91           */
+  92          void LCD_ShowChar(unsigned char Line, unsigned char Column, char Char)
+  93          {
+  94   1        LCD_SetCursor(Line, Column);
+  95   1        LCD_WriteData(Char);
+  96   1      }
+  97          
+  98          /**
+  99           * @brief  在LCD1602指定位置开始显示所给字符串
+ 100           * @param  Line 起始行位置，范围：1~2
+ 101           * @param  Column 起始列位置，范围：1~16
+ 102           * @param  String 要显示的字符串
+ 103           * @retval 无
+ 104           */
+ 105          void LCD_ShowString(unsigned char Line, unsigned char Column, char *String)
+ 106          {
+ 107   1        unsigned char i;
+ 108   1        LCD_SetCursor(Line, Column);
+ 109   1        for (i = 0; String[i] != '\0'; i++)
+ 110   1        {
+ 111   2          LCD_WriteData(String[i]);
+ 112   2        }
+ 113   1      }
+ 114          
+ 115          /**
+ 116           * @brief  返回值=X的Y次方
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 3   
+
+ 117           */
+ 118          int LCD_Pow(int X, int Y)
+ 119          {
+ 120   1        unsigned char i;
+ 121   1        int Result = 1;
+ 122   1        for (i = 0; i < Y; i++)
+ 123   1        {
+ 124   2          Result *= X;
+ 125   2        }
+ 126   1        return Result;
+ 127   1      }
+ 128          
+ 129          /**
+ 130           * @brief  在LCD1602指定位置开始显示所给数字
+ 131           * @param  Line 起始行位置，范围：1~2
+ 132           * @param  Column 起始列位置，范围：1~16
+ 133           * @param  Number 要显示的数字，范围：0~65535
+ 134           * @param  Length 要显示数字的长度，范围：1~5
+ 135           * @retval 无
+ 136           */
+ 137          void LCD_ShowNum(unsigned char Line, unsigned char Column, unsigned int Number, unsigned char Length)
+ 138          {
+ 139   1        unsigned char i;
+ 140   1        LCD_SetCursor(Line, Column);
+ 141   1        for (i = Length; i > 0; i--)
+ 142   1        {
+ 143   2          LCD_WriteData(Number / LCD_Pow(10, i - 1) % 10 + '0');
+ 144   2        }
+ 145   1      }
+ 146          
+ 147          /**
+ 148           * @brief  在LCD1602指定位置开始以有符号十进制显示所给数字
+ 149           * @param  Line 起始行位置，范围：1~2
+ 150           * @param  Column 起始列位置，范围：1~16
+ 151           * @param  Number 要显示的数字，范围：-32768~32767
+ 152           * @param  Length 要显示数字的长度，范围：1~5
+ 153           * @retval 无
+ 154           */
+ 155          void LCD_ShowSignedNum(unsigned char Line, unsigned char Column, int Number, unsigned char Length)
+ 156          {
+ 157   1        unsigned char i;
+ 158   1        unsigned int Number1;
+ 159   1        LCD_SetCursor(Line, Column);
+ 160   1        if (Number >= 0)
+ 161   1        {
+ 162   2          LCD_WriteData('+');
+ 163   2          Number1 = Number;
+ 164   2        }
+ 165   1        else
+ 166   1        {
+ 167   2          LCD_WriteData('-');
+ 168   2          Number1 = -Number;
+ 169   2        }
+ 170   1        for (i = Length; i > 0; i--)
+ 171   1        {
+ 172   2          LCD_WriteData(Number1 / LCD_Pow(10, i - 1) % 10 + '0');
+ 173   2        }
+ 174   1      }
+ 175          
+ 176          /**
+ 177           * @brief  在LCD1602指定位置开始以十六进制显示所给数字
+ 178           * @param  Line 起始行位置，范围：1~2
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 4   
+
+ 179           * @param  Column 起始列位置，范围：1~16
+ 180           * @param  Number 要显示的数字，范围：0~0xFFFF
+ 181           * @param  Length 要显示数字的长度，范围：1~4
+ 182           * @retval 无
+ 183           */
+ 184          void LCD_ShowHexNum(unsigned char Line, unsigned char Column, unsigned int Number, unsigned char Length)
+ 185          {
+ 186   1        unsigned char i, SingleNumber;
+ 187   1        LCD_SetCursor(Line, Column);
+ 188   1        for (i = Length; i > 0; i--)
+ 189   1        {
+ 190   2          SingleNumber = Number / LCD_Pow(16, i - 1) % 16;
+ 191   2          if (SingleNumber < 10)
+ 192   2          {
+ 193   3            LCD_WriteData(SingleNumber + '0');
+ 194   3          }
+ 195   2          else
+ 196   2          {
+ 197   3            LCD_WriteData(SingleNumber - 10 + 'A');
+ 198   3          }
+ 199   2        }
+ 200   1      }
+ 201          
+ 202          /**
+ 203           * @brief  在LCD1602指定位置开始以二进制显示所给数字
+ 204           * @param  Line 起始行位置，范围：1~2
+ 205           * @param  Column 起始列位置，范围：1~16
+ 206           * @param  Number 要显示的数字，范围：0~1111 1111 1111 1111
+ 207           * @param  Length 要显示数字的长度，范围：1~16
+ 208           * @retval 无
+ 209           */
+ 210          void LCD_ShowBinNum(unsigned char Line, unsigned char Column, unsigned int Number, unsigned char Length)
+ 211          {
+ 212   1        unsigned char i;
+ 213   1        LCD_SetCursor(Line, Column);
+ 214   1        for (i = Length; i > 0; i--)
+ 215   1        {
+ 216   2          LCD_WriteData(Number / LCD_Pow(2, i - 1) % 2 + '0');
+ 217   2        }
+ 218   1      }
+ 219          
+ 220          void Delay(unsigned int xms) //@12MHz
+ 221          {
+ 222   1        unsigned char data i, j;
+ 223   1      
+ 224   1        while (xms--)
+ 225   1        {
+ 226   2          i = 2;
+ 227   2          j = 239;
+ 228   2          do
+ 229   2          {
+ 230   3            while (--j)
+ 231   3              ;
+ 232   3          } while (--i);
+ 233   2        }
+ 234   1      }
+ 235          
+ 236          unsigned char Nixie_Buf[9] = {0, 10, 10, 10, 10, 10, 10, 10, 10};
+ 237          
+ 238          unsigned char NixieTable[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F, 0X00, 0x40};
+ 239          
+ 240          void Nixie_SetBuf(unsigned char Location, unsigned char Number)
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 5   
+
+ 241          {
+ 242   1        Nixie_Buf[Location] = Number;
+ 243   1      }
+ 244          
+ 245          void NixieTube_Scan(unsigned char Location, unsigned char Number)
+ 246          {
+ 247   1        // 要同时显示多个数码管，需要消影
+ 248   1        // 显示多个数码管：是先进行这个数码的位选，再对其段选
+ 249   1        // 然后再对下一个数码管进行位选，再段选，依次类推
+ 250   1        // 逻辑就是：位选 段选 → 下一个数码管位选 段选
+ 251   1        // 这段选到下一个位选之间，因为速度很快，会导致上个段选
+ 252   1        // 的数据会串到下一个位选上，从而产生影子
+ 253   1        // 所以我们在这个逻辑之间加上一个清零就好了，让数码馆不显示
+ 254   1        // 即：位选 段选 清零 下一个数码管位选 段选
+ 255   1        // 以下程序用于数码管消影：
+ 256   1        // Delay(1);  // 先延时1ms，如果立马清零，只是会让原来的数码管变暗
+ 257   1        // 这里用定时器来取代Delay的功能
+ 258   1        P0 = 0x00; // 清零
+ 259   1        switch (Location)
+ 260   1        {
+ 261   2        case 1:
+ 262   2          P2_4 = 1;
+ 263   2          P2_3 = 1;
+ 264   2          P2_2 = 1;
+ 265   2          break;
+ 266   2        case 2:
+ 267   2          P2_4 = 1;
+ 268   2          P2_3 = 1;
+ 269   2          P2_2 = 0;
+ 270   2          break;
+ 271   2        case 3:
+ 272   2          P2_4 = 1;
+ 273   2          P2_3 = 0;
+ 274   2          P2_2 = 1;
+ 275   2          break;
+ 276   2        case 4:
+ 277   2          P2_4 = 1;
+ 278   2          P2_3 = 0;
+ 279   2          P2_2 = 0;
+ 280   2          break;
+ 281   2        case 5:
+ 282   2          P2_4 = 0;
+ 283   2          P2_3 = 1;
+ 284   2          P2_2 = 1;
+ 285   2          break;
+ 286   2        case 6:
+ 287   2          P2_4 = 0;
+ 288   2          P2_3 = 1;
+ 289   2          P2_2 = 0;
+ 290   2          break;
+ 291   2        case 7:
+ 292   2          P2_4 = 0;
+ 293   2          P2_3 = 0;
+ 294   2          P2_2 = 1;
+ 295   2          break;
+ 296   2        case 8:
+ 297   2          P2_4 = 0;
+ 298   2          P2_3 = 0;
+ 299   2          P2_2 = 0;
+ 300   2          break;
+ 301   2        }
+ 302   1        P0 = NixieTable[Number];
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 6   
+
+ 303   1      }
+ 304          
+ 305          void NixieTube_Loop(void) // 此函数与timer配合，每2ms执行一次此函数，即动态刷新数码
+             -管的1到8位
+ 306          {
+ 307   1        static unsigned char i = 1;
+ 308   1        NixieTube_Scan(i, Nixie_Buf[i]); // 这里位选与位选对应
+ 309   1        i++;
+ 310   1        if (i >= 9)
+ 311   1        {
+ 312   2          i = 1;
+ 313   2        }
+ 314   1      }
+ 315          
+ 316          // 作用是获取矩阵键盘，范围为0~16，无按键按下返回值为0
+ 317          unsigned char MatrixKeyboard()
+ 318          {
+ 319   1        unsigned char KeyNumber = 0;
+ 320   1      
+ 321   1        P1 = 0xFF;
+ 322   1        P1_3 = 0; /*结合电路原理图，当P1_3=0，其他列为1时，则检测第1列，当有按键按下�
+             -��，
+ 323   1                 比如S1被按下，那么电路导通，会使得P1_7=0;反之，若P1_7=0,则S1被按下，
+ 324   1                 所以我们依次判断对应4个IO口是否为0就可以知道哪个按键被按下了，
+ 325   1                 然后依次切换对应列，逐个扫描就能识别整个矩阵键盘哪个按键被按下了。
+             -*/
+ 326   1        if (P1_7 == 0)
+ 327   1        {
+ 328   2          Delay(100);
+ 329   2          while (P1_7 == 0)
+ 330   2            ;
+ 331   2          Delay(100);
+ 332   2          KeyNumber = 1;
+ 333   2        }
+ 334   1        if (P1_6 == 0)
+ 335   1        {
+ 336   2          Delay(100);
+ 337   2          while (P1_7 == 0)
+ 338   2            ;
+ 339   2          Delay(100);
+ 340   2          KeyNumber = 5;
+ 341   2        }
+ 342   1        if (P1_5 == 0)
+ 343   1        {
+ 344   2          Delay(100);
+ 345   2          while (P1_7 == 0)
+ 346   2            ;
+ 347   2          Delay(100);
+ 348   2          KeyNumber = 9;
+ 349   2        }
+ 350   1        if (P1_4 == 0)
+ 351   1        {
+ 352   2          Delay(100);
+ 353   2          while (P1_7 == 0)
+ 354   2            ;
+ 355   2          Delay(100);
+ 356   2          KeyNumber = 13;
+ 357   2        }
+ 358   1      
+ 359   1        P1 = 0xFF;
+ 360   1        P1_2 = 0;
+ 361   1        if (P1_7 == 0)
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 7   
+
+ 362   1        {
+ 363   2          Delay(100);
+ 364   2          while (P1_7 == 0)
+ 365   2            ;
+ 366   2          Delay(100);
+ 367   2          KeyNumber = 2;
+ 368   2        }
+ 369   1        if (P1_6 == 0)
+ 370   1        {
+ 371   2          Delay(100);
+ 372   2          while (P1_7 == 0)
+ 373   2            ;
+ 374   2          Delay(100);
+ 375   2          KeyNumber = 6;
+ 376   2        }
+ 377   1        if (P1_5 == 0)
+ 378   1        {
+ 379   2          Delay(100);
+ 380   2          while (P1_7 == 0)
+ 381   2            ;
+ 382   2          Delay(100);
+ 383   2          KeyNumber = 10;
+ 384   2        }
+ 385   1        if (P1_4 == 0)
+ 386   1        {
+ 387   2          Delay(100);
+ 388   2          while (P1_7 == 0)
+ 389   2            ;
+ 390   2          Delay(100);
+ 391   2          KeyNumber = 14;
+ 392   2        }
+ 393   1      
+ 394   1        P1 = 0xFF;
+ 395   1        P1_1 = 0;
+ 396   1        if (P1_7 == 0)
+ 397   1        {
+ 398   2          Delay(100);
+ 399   2          while (P1_7 == 0)
+ 400   2            ;
+ 401   2          Delay(100);
+ 402   2          KeyNumber = 3;
+ 403   2        }
+ 404   1        if (P1_6 == 0)
+ 405   1        {
+ 406   2          Delay(100);
+ 407   2          while (P1_7 == 0)
+ 408   2            ;
+ 409   2          Delay(100);
+ 410   2          KeyNumber = 7;
+ 411   2        }
+ 412   1        if (P1_5 == 0)
+ 413   1        {
+ 414   2          Delay(100);
+ 415   2          while (P1_7 == 0)
+ 416   2            ;
+ 417   2          Delay(100);
+ 418   2          KeyNumber = 11;
+ 419   2        }
+ 420   1        if (P1_4 == 0)
+ 421   1        {
+ 422   2          Delay(100);
+ 423   2          while (P1_7 == 0)
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 8   
+
+ 424   2            ;
+ 425   2          Delay(100);
+ 426   2          KeyNumber = 15;
+ 427   2        }
+ 428   1      
+ 429   1        P1 = 0xFF;
+ 430   1        P1_0 = 0;
+ 431   1        if (P1_7 == 0)
+ 432   1        {
+ 433   2          Delay(100);
+ 434   2          while (P1_7 == 0)
+ 435   2            ;
+ 436   2          Delay(100);
+ 437   2          KeyNumber = 4;
+ 438   2        }
+ 439   1        if (P1_6 == 0)
+ 440   1        {
+ 441   2          Delay(100);
+ 442   2          while (P1_7 == 0)
+ 443   2            ;
+ 444   2          Delay(100);
+ 445   2          KeyNumber = 8;
+ 446   2        }
+ 447   1        if (P1_5 == 0)
+ 448   1        {
+ 449   2          Delay(100);
+ 450   2          while (P1_7 == 0)
+ 451   2            ;
+ 452   2          Delay(100);
+ 453   2          KeyNumber = 12;
+ 454   2        }
+ 455   1        if (P1_4 == 0)
+ 456   1        {
+ 457   2          Delay(100);
+ 458   2          while (P1_7 == 0)
+ 459   2            ;
+ 460   2          Delay(100);
+ 461   2          KeyNumber = 16;
+ 462   2        }
+ 463   1      
+ 464   1        return KeyNumber;
+ 465   1      }
+ 466          
+ 467          void Timer0_Init() // 1ms@12MHz
+ 468          {
+ 469   1        TMOD &= 0xF0; // 把TMOD的低四位清零，高四位保持不变
+ 470   1        TMOD |= 0x01; // 把TMOD的最低位置1，其他7位保持不变，这里即设置了定时器0的模式
+             -是工作方式1：16为计数器
+ 471   1        // 这样做的好处就在于可以只操作TMOD的其中某些位而不影响其他位
+ 472   1      
+ 473   1        TF0 = 0; // 设置T0定时器溢出标志位为0
+ 474   1        TR0 = 1; // 即启动定时器0开始计时
+ 475   1      
+ 476   1        TH0 = 0xFC; // 设置定时初始值为64535+1
+ 477   1        TL0 = 0x18;
+ 478   1        // 另一写法
+ 479   1        //  TH0=64535/256;//作用即得到64535转16进制后的高8位，这里除的结果只取整数，不取
+             -小数
+ 480   1        //                （结果即十进制的252，转16进制就是FC，刚好就是64535的十六进制高8位）
+ 481   1        //  TL0=64535%256+1;//结果即64535转16进制后的低8位（同理，自己计算），+1是因为定�
+             -�器
+ 482   1        // 最大定时为65535，而定时器要到65536才溢出，所以64535到65536是1001，多了1微秒�
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 9   
+
+             -�这样定时就是1.001ms
+ 483   1      
+ 484   1        ET0 = 1; // T0对应的中断开关闭合
+ 485   1        EA = 1;  // 中断总开关闭合
+ 486   1        PT0 = 0; // 设置中断优先级为低级
+ 487   1      }
+ 488          
+ 489          /*上面的的定时器初始化程序要配合下面的定时器中断程序模板，只不过中断程�
+             -�要写到主函数文件与主函数配合
+ 490          void Timer0_Routine() interrupt 1 //定时器T0的中断程序函数命名随意，interrupt 1用于将此
+             -函数定义为定时器0的中断程序
+ 491          {
+ 492            static unsigned int T0Count;//静态变量使得该变量出了此函数仍然不会被销毁
+ 493            TH0=0xFC;//每次计时计完后需要重新赋初值，若
+ 494            TL0=0x18;//不赋初值，它会默认重0开始计时,这里设置的时每隔1ms执行一次中断
+ 495            T0Count++;
+ 496            if(T0Count>=1000)
+ 497            {
+ 498              T0Count=0;
+ 499          
+ 500            }
+ 501          }
+ 502          */
+ 503          
+ 504          // 独立键盘键码
+ 505          unsigned char Key_KeyNumber = 0;
+ 506          
+ 507          // 获取当下已经被按下抬起的独立按键码
+ 508          unsigned char Key(void)
+ 509          {
+ 510   1        unsigned char Temp = 0;
+ 511   1        Temp = Key_KeyNumber;
+ 512   1        Key_KeyNumber = 0;
+ 513   1        return Temp;
+ 514   1      }
+ 515          
+ 516          // 作用是获取独立按键是否被按下，范围为0~4，无按键按下返回值为0
+ 517          unsigned char IndependentKey_Getstate()
+ 518          {
+ 519   1        unsigned char KeyNumber = 0;
+ 520   1      
+ 521   1        if (P3_1 == 0)
+ 522   1        {
+ 523   2          KeyNumber = 1;
+ 524   2        }
+ 525   1        if (P3_0 == 0)
+ 526   1        {
+ 527   2          Delay(100);
+ 528   2          KeyNumber = 2;
+ 529   2        }
+ 530   1        if (P3_2 == 0)
+ 531   1        {
+ 532   2          KeyNumber = 3;
+ 533   2        }
+ 534   1        if (P3_3 == 0)
+ 535   1        {
+ 536   2          KeyNumber = 4;
+ 537   2        }
+ 538   1      
+ 539   1        return KeyNumber;
+ 540   1      }
+ 541          
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 10  
+
+ 542          void IndependentKey_Loop(void)
+ 543          {
+ 544   1        static unsigned char NowState = 0;
+ 545   1        static unsigned char LastState = 0;
+ 546   1        LastState = NowState;
+ 547   1        NowState = IndependentKey_Getstate();
+ 548   1        if (LastState == 1 && NowState == 0) // 当LastState = 1时，表示上个状态按键1被按下
+ 549   1        {                  // 同时若NowState = 0时，则表示现在没有按键按下
+ 550   2          Key_KeyNumber = 1;         // LastState == 1 && NowState == 0则表示按键被按下了且按键现在弹�
+             -�了
+ 551   2        }
+ 552   1        if (LastState == 2 && NowState == 0)
+ 553   1        {
+ 554   2          Key_KeyNumber = 2;
+ 555   2        }
+ 556   1        if (LastState == 3 && NowState == 0)
+ 557   1        {
+ 558   2          Key_KeyNumber = 3;
+ 559   2        }
+ 560   1        if (LastState == 4 && NowState == 0)
+ 561   1        {
+ 562   2          Key_KeyNumber = 4;
+ 563   2        }
+ 564   1      }
+ 565          
+ 566          void UART_Init() // 波特率4800
+ 567          {
+ 568   1        SCON = 0x50;  // 其他初始化为0，而选择工作方式为1且REN置为1允许串口接受数据
+ 569   1        PCON |= 0x80; // 使能波特率加倍，从而减少误差
+ 570   1        // 注意51的串口只能配置定时器1
+ 571   1        TMOD &= 0x0F;
+ 572   1        TMOD |= 0x20; // 串口需要定时器1设置为8位自动重装模式
+ 573   1        // 8位自动重装模式就是只赋一次初值，后面自动装载，而无需再中断程序中再�
+             -�初值
+ 574   1      
+ 575   1        // 这里无需设置溢出标志位，因为只要定时器1在计数有溢出就会生成波特率
+ 576   1        TR1 = 1; // 即启动定时器1开始计时
+ 577   1      
+ 578   1        TH1 = 0xF4; // 设置定时器1初值
+ 579   1        TL1 = 0xF4; // 设置定时器1的自动重载值
+ 580   1      
+ 581   1        ET1 = 0; // 禁止定时器中断,这里不需要定时器中断
+ 582   1      
+ 583   1        EA = 1; // 总中断开关闭合
+ 584   1        ES = 1; // 串口中断开关闭合，当发送/接受数据时，则触发中断
+ 585   1      }
+ 586          
+ 587          void UART_SendByte(unsigned char Byte)
+ 588          {
+ 589   1        SBUF = Byte;  // SBUF负责接收/发送数据
+ 590   1        while (TI == 0) // TI是发送控制器，当发送完成后TI=0，否则为1，
+ 591   1        {       // 这里不可以一直发送，所以需要知道TI发送完后后才能继续发送
+ 592   2          ;
+ 593   2        }
+ 594   1        TI = 0; // TI不能自动复位，需程序复位，以便下一次的判断
+ 595   1      }
+ 596          
+ 597          /*中断程序要写到主函数文件与主函数配合,这里的串口中断程序是用于电脑发送�
+             -��单片机数据，单片机则触发中断来接受数据
+ 598          void UART_Routine() interrupt 4 // interrupt 4用于将此函数定义为串口中断的程序
+ 599          {
+ 600            if (RI == 1) // 接受中断请求标志位，1即接受，因为发送和接受中断标志位是用的�
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 11  
+
+             -��一个或门，
+ 601            {      // 所以这里我们需要判断究竟是发送还是接受触发的中断
+ 602              ;
+ 603              RI = 0; // RI不能自动复位，需程序复位，以便下一次的判断
+ 604            }
+ 605          }
+ 606          */
+ 607          
+ 608          void MatrixLED_Init()
+ 609          {
+ 610   1        SCK = 0; // 移位信号初始化为0，方便后续赋1移位
+ 611   1        RCK = 0; // 并行输出信号初试化为0, 方便后续输出
+ 612   1      }
+ 613          
+ 614          void _74HC595_WriteByte(unsigned char Byte) // 注意函数名不能以数字开头
+ 615          {
+ 616   1        unsigned char i = 0;
+ 617   1        for (i = 0; i < 8; i++)
+ 618   1        {
+ 619   2          SER = Byte & (0x80 >> i);
+ 620   2          // Byte与1000 0000相与确认Byte的最高位(同理，下次循环，Byte与0100 0000相与)
+ 621   2          // 而SER是一个位，给它赋值就是非0即1，
+ 622   2          // 也就是说SER只要接受非零的数值它就是1，否则就是0
+ 623   2          // 所以这样就可以提取出Byte的1位数值
+ 624   2          SCK = 1; // 给SCK赋1移位
+ 625   2          SCK = 0; // 置0方便下次移位
+ 626   2        }
+ 627   1        RCK = 1; // 将此8位数据输出出去
+ 628   1        RCK = 0; // 置0以便下次输出
+ 629   1      }
+ 630          
+ 631          // Column 即矩阵的列，Data 即列显示的数据，高位在上，1亮0灭
+ 632          void MatrixLED_Show(unsigned char Column, unsigned char Data)
+ 633          {
+ 634   1        _74HC595_WriteByte(Data);
+ 635   1        P0 = ~(0x80 >> Column);
+ 636   1        Delay(1); // 与数码管一样，这里LED点阵也要消影
+ 637   1        P0 = 0xFF;
+ 638   1      }
+ 639          
+ 640          void DS1302_Init(void)
+ 641          {
+ 642   1        DS1302_SCLK = 0;
+ 643   1        DS1302_CE = 0;
+ 644   1      }
+ 645          
+ 646          void DS1302_WriteByte(unsigned char command, unsigned char Date)
+ 647          {
+ 648   1        unsigned char i;
+ 649   1        DS1302_CE = 1;
+ 650   1      
+ 651   1        for (i = 0; i < 8; i++)
+ 652   1        {
+ 653   2          DS1302_IO = command & (0x01 << i);
+ 654   2          DS1302_SCLK = 1;
+ 655   2          DS1302_SCLK = 0;
+ 656   2        }
+ 657   1      
+ 658   1        for (i = 0; i < 8; i++)
+ 659   1        {
+ 660   2          DS1302_IO = Date & (0x01 << i);
+ 661   2          DS1302_SCLK = 1;
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 12  
+
+ 662   2          DS1302_SCLK = 0;
+ 663   2        }
+ 664   1        DS1302_CE = 0;
+ 665   1      }
+ 666          
+ 667          unsigned char DS1302_ReadByte(unsigned char command)
+ 668          {
+ 669   1        unsigned char i;
+ 670   1        unsigned char Data = 0x00;
+ 671   1        command |= 0x01; // 这一句的作用就在于，给函数DS1302_ReadByte写的地址，然后
+ 672   1                 // 最后一位置1就是对应读的地址
+ 673   1      
+ 674   1        DS1302_CE = 1;
+ 675   1        for (i = 0; i < 8; i++)
+ 676   1        {
+ 677   2          DS1302_IO = command & (0x01 << i);
+ 678   2          DS1302_SCLK = 0;
+ 679   2          DS1302_SCLK = 1;
+ 680   2        }
+ 681   1      
+ 682   1        for (i = 0; i < 8; i++)
+ 683   1        {
+ 684   2          DS1302_SCLK = 1;
+ 685   2          DS1302_SCLK = 0;
+ 686   2          if (DS1302_IO)
+ 687   2          {
+ 688   3            Data |= (0x01 << i);
+ 689   3          }
+ 690   2        }
+ 691   1        DS1302_CE = 0;
+ 692   1        DS1302_IO = 0;
+ 693   1      
+ 694   1        return Data;
+ 695   1      }
+ 696          
+ 697          char DS1302_Time[7] = {23, 11, 19, 15, 41, 0, 6};
+ 698          
+ 699          void DS1302_SetTime(void)
+ 700          {
+ 701   1        DS1302_WriteByte(DS1302_WP, 0x00); // 关闭写保护
+ 702   1      
+ 703   1        DS1302_WriteByte(DS1302_YEAR, DS1302_Time[0] / 10 * 16 + DS1302_Time[0] % 10);
+ 704   1        DS1302_WriteByte(DS1302_MONTH, DS1302_Time[1] / 10 * 16 + DS1302_Time[1] % 10);
+ 705   1        DS1302_WriteByte(DS1302_DATE, DS1302_Time[2] / 10 * 16 + DS1302_Time[2] % 10);
+ 706   1        DS1302_WriteByte(DS1302_HOUR, DS1302_Time[3] / 10 * 16 + DS1302_Time[3] % 10);
+ 707   1        DS1302_WriteByte(DS1302_MINUTE, DS1302_Time[4] / 10 * 16 + DS1302_Time[4] % 10);
+ 708   1        DS1302_WriteByte(DS1302_SECOND, DS1302_Time[5] / 10 * 16 + DS1302_Time[5] % 10);
+ 709   1        DS1302_WriteByte(DS1302_DAY, DS1302_Time[6] / 10 * 16 + DS1302_Time[6] % 10);
+ 710   1      
+ 711   1        DS1302_WriteByte(DS1302_WP, 0x80); // 打开写保护
+ 712   1      }
+ 713          
+ 714          void DS1302_ReadTime(void)
+ 715          {
+ 716   1        unsigned char Temp; // 中间变量
+ 717   1      
+ 718   1        Temp = DS1302_ReadByte(DS1302_YEAR);
+ 719   1        DS1302_Time[0] = Temp / 16 * 10 + Temp % 16;
+ 720   1        Temp = DS1302_ReadByte(DS1302_MONTH);
+ 721   1        DS1302_Time[1] = Temp / 16 * 10 + Temp % 16;
+ 722   1        Temp = DS1302_ReadByte(DS1302_DATE);
+ 723   1        DS1302_Time[2] = Temp / 16 * 10 + Temp % 16;
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 13  
+
+ 724   1        Temp = DS1302_ReadByte(DS1302_HOUR);
+ 725   1        DS1302_Time[3] = Temp / 16 * 10 + Temp % 16;
+ 726   1        Temp = DS1302_ReadByte(DS1302_MINUTE);
+ 727   1        DS1302_Time[4] = Temp / 16 * 10 + Temp % 16;
+ 728   1        Temp = DS1302_ReadByte(DS1302_SECOND);
+ 729   1        DS1302_Time[5] = Temp / 16 * 10 + Temp % 16;
+ 730   1        Temp = DS1302_ReadByte(DS1302_DAY);
+ 731   1        DS1302_Time[6] = Temp / 16 * 10 + Temp % 16;
+ 732   1      }
+ 733          
+ 734          void I2C_Start(void) // I2C开始
+ 735          {
+ 736   1        I2C_SCL = 1;
+ 737   1        I2C_SDA = 1;
+ 738   1        I2C_SDA = 0;
+ 739   1        I2C_SCL = 0;
+ 740   1      }
+ 741          
+ 742          void I2C_Stop(void) // I2C停止
+ 743          {
+ 744   1        I2C_SDA = 0;
+ 745   1        I2C_SCL = 1;
+ 746   1        I2C_SDA = 1;
+ 747   1      }
+ 748          
+ 749          void I2C_SendByte(unsigned char Byte) // I2C发送一个字节，Byte即要发送的字节
+ 750          {
+ 751   1        unsigned char i;
+ 752   1        for (i = 0; i < 8; i++)
+ 753   1        {
+ 754   2          I2C_SDA = Byte & (0x80 >> i); // 依次取出Byte的位
+ 755   2          I2C_SCL = 1;
+ 756   2          I2C_SCL = 0;
+ 757   2        }
+ 758   1      }
+ 759          
+ 760          unsigned char I2C_ReceiveByte(void) // I2C接收一个字节并返回
+ 761          {
+ 762   1        unsigned char Byte = 0x00;
+ 763   1        unsigned char i = 0;
+ 764   1      
+ 765   1        I2C_SDA = 1;
+ 766   1      
+ 767   1        for (i = 0; i < 8; i++)
+ 768   1        {
+ 769   2          I2C_SCL = 1;
+ 770   2          if (I2C_SDA)
+ 771   2          {
+ 772   3            Byte |= (0x80 >> i);
+ 773   3          }
+ 774   2          I2C_SCL = 0;
+ 775   2        }
+ 776   1      
+ 777   1        return Byte;
+ 778   1      }
+ 779          
+ 780          void I2C_SendAck(unsigned char AckBit) // I2C主机发送应答，AckBit为应答，0应答，1非应答
+ 781          {
+ 782   1        I2C_SDA = AckBit;
+ 783   1        I2C_SCL = 1;
+ 784   1        I2C_SCL = 0;
+ 785   1      }
+C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 15:25:08 PAGE 14  
+
+ 786          
+ 787          unsigned char I2C_ReceiveAck(void) // I2C主机接收应答
+ 788          {
+ 789   1        unsigned char AckBit;
+ 790   1        I2C_SDA = 1;
+ 791   1        I2C_SCL = 1;
+ 792   1        AckBit = I2C_SDA;
+ 793   1        I2C_SCL = 0;
+ 794   1        return AckBit;
+ 795   1      }
+ 796          
+ 797          // 注意输入的WordAddress是8位地址，所以取值应是0~255
+ 798          void AT24C02_WriterByte(unsigned char WordAddress, unsigned char Data)
+ 799          {
+ 800   1        I2C_Start();
+ 801   1        I2C_SendByte(AT24C02_ADDRESS);
+ 802   1        I2C_ReceiveAck();
+ 803   1        I2C_SendByte(WordAddress);
+ 804   1        I2C_ReceiveAck();
+ 805   1        I2C_SendByte(Data);
+ 806   1        I2C_ReceiveAck();
+ 807   1        I2C_Stop();
+ 808   1      }
+ 809          
+ 810          // 注意输入的WordAddress是8位地址，所以取值应是0~255
+ 811          unsigned char AT24C02_ReadByte(unsigned char WordAddress)
+ 812          {
+ 813   1        unsigned char Data = 0;
+ 814   1        I2C_Start();
+ 815   1        I2C_SendByte(AT24C02_ADDRESS);
+ 816   1        I2C_ReceiveAck();
+ 817   1        I2C_SendByte(WordAddress);
+ 818   1        I2C_ReceiveAck();
+ 819   1        I2C_Start();
+ 820   1        I2C_SendByte(AT24C02_ADDRESS | 0x01);
+ 821   1        I2C_ReceiveAck();
+ 822   1        Data = I2C_ReceiveByte();
+ 823   1        I2C_SendAck(1);
+ 824   1        I2C_Stop();
+ 825   1      
+ 826   1        return Data;
+ 827   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1873    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     32      29
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
