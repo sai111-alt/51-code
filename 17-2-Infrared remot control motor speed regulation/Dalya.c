@@ -444,34 +444,34 @@ unsigned char MatrixKeyboard()
 	return KeyNumber;
 }
 
-void Timer0Init() // 1ms@12MHz
+void Timer1_Init() // 1ms@12MHz
 {
-	TMOD &= 0xF0; // 把TMOD的低四位清零，高四位保持不变
-	TMOD |= 0x01; // 把TMOD的最低位置1，其他7位保持不变，这里即设置了定时器0的模式是工作方式1：16位计数器
+	TMOD &= 0x0F; // 把TMOD的低四位清零，高四位保持不变
+	TMOD |= 0x10; // 把TMOD的最低位置1，其他7位保持不变，这里即设置了定时器1的模式是工作方式1：16位计数器
 	// 这样做的好处就在于可以只操作TMOD的其中某些位而不影响其他位
 
-	TF0 = 0; // 设置T0定时器溢出标志位为0
-	TR0 = 1; // 即启动定时器0开始计时
+	TF1 = 0; // 设置T0定时器溢出标志位为0
+	TR1 = 1; // 即启动定时器1开始计时
 
-	TH0 = 0xFC; // 设置定时初始值为64535+1
-	TL0 = 0x18;
+	TH1 = 0xFC; // 设置定时初始值为64535+1
+	TL1 = 0x18;
 	// 另一写法
 	//	TH0=64535/256;//作用即得到64535转16进制后的高8位，这里除的结果只取整数，不取小数
 	//								（结果即十进制的252，转16进制就是FC，刚好就是64535的十六进制高8位）
 	//	TL0=64535%256+1;//结果即64535转16进制后的低8位（同理，自己计算），+1是因为定时器
 	// 最大定时为65535，而定时器要到65536才溢出，所以64535到65536是1001，多了1微秒，这样定时就是1.001ms
 
-	ET0 = 1; // T0对应的中断开关闭合
+	ET1 = 1; // T0对应的中断开关闭合
 	EA = 1;	 // 中断总开关闭合
-	PT0 = 0; // 设置中断优先级为低级
+	PT1 = 0; // 设置中断优先级为低级
 }
 
 /*上面的的定时器初始化程序要配合下面的定时器中断程序模板，只不过中断程序要写到主函数文件与主函数配合
-void Timer0_Routine() interrupt 1 //定时器T0的中断程序函数命名随意，interrupt 1用于将此函数定义为定时器0的中断程序
+void Timer1_Routine() interrupt 3 //定时器T0的中断程序函数命名随意，interrupt 1用于将此函数定义为定时器0的中断程序
 {
 	static unsigned int T0Count;//静态变量使得该变量出了此函数仍然不会被销毁
-	TH0=0xFC;//每次计时计完后需要重新赋初值，若
-	TL0=0x18;//不赋初值，它会默认重0开始计时,这里设置的时每隔1ms执行一次中断
+	TH1=0xFC;//每次计时计完后需要重新赋初值，若
+	TL1=0x18;//不赋初值，它会默认重0开始计时,这里设置的时每隔1ms执行一次中断
 	T0Count++;
 	if(T0Count>=1000)
 	{
@@ -801,3 +801,144 @@ void Int0_Routine(void) interrupt 0
 
 }
 */
+
+void Timer0_Init(void)
+{
+	TMOD &= 0xF0;
+	TMOD |= 0x01;
+
+	TF0 = 0;
+	TR0 = 0; // 即初始化关闭定时器0计时
+
+	TH0 = 0;
+	TL0 = 0;
+}
+
+// 此函数用于设置定时器的定时时间
+void Timer0_SetCounter(unsigned int Value)
+{
+	TH0 = Value / 256;
+	TL0 = Value % 256;
+}
+
+// 此函数用于得到定时器计时当前的时间
+unsigned int Timer0_GetCounter(void)
+{
+	return (TH0 << 8) | TL0;
+}
+
+// 此函数负责开启和关闭定时器
+void Timer0_Run(unsigned char Flag)
+{
+	TR0 = Flag;
+}
+
+unsigned int IR_Time;
+unsigned char IR_State;
+
+unsigned char IR_Data[4];
+unsigned char IR_pData; // 记录Data存到了第几位
+
+unsigned char IR_DataFlag;	 // Data数据收到的标志位
+unsigned char IR_RepeatFlag; // 重发标志位
+
+unsigned char IR_Address;
+unsigned char IR_Command;
+
+void IR_Init(void)
+{
+	Timer0_Init();
+	Int0_Init();
+}
+
+unsigned char IR_GetDataFlag(void)
+{
+	if (IR_DataFlag)
+	{
+		IR_DataFlag = 0;
+		return 1;
+	}
+	return 0;
+}
+
+unsigned char IR_GetRepeatFlag(void)
+{
+	if (IR_RepeatFlag)
+	{
+		IR_RepeatFlag = 0;
+		return 1;
+	}
+	return 0;
+}
+
+unsigned char IR_GetAddress(void)
+{
+	return IR_Address;
+}
+
+unsigned char IR_GetCommand(void)
+{
+	return IR_Command;
+}
+
+// 11.0592MHz： Start信号：12442±1000，Repeat : 10368±1000； 读“0”：1032±1000；读“1”：2074±1000；改好以后就能有现象了。
+void Int0_Routine(void) interrupt 0
+{
+	if (IR_State == 0) // 发送的最初状态0要初始化定时器开始计时
+	{
+		Timer0_SetCounter(0);
+		Timer0_Run(1);
+		IR_State = 1;
+	}
+	else if (IR_State == 1) // 从状态0变到状态1意味着红外信号可能来了
+	{
+		IR_Time = Timer0_GetCounter();
+		Timer0_SetCounter(0);
+		if (IR_Time > 12442 - 500 && IR_Time < 12442 + 500) // 判断是否时start信号
+		{
+			IR_State = 2; // 若是start信号则进入状态2接受数据
+		}
+		else if (IR_Time > 10368 - 500 && IR_Time < 10368 + 500) // 判断是否时repeat信号
+		{
+			IR_RepeatFlag = 1; // 如果是repeat信号，说明Data已经发完了，开始重复发Data
+			Timer0_Run(0);
+			IR_State = 0;
+		}
+		else // 如果既不是satart，也不是repeat，说明信号有问题，则回到1重复判断
+		{
+			IR_State = 1;
+		}
+	}
+	else if (IR_State == 2)
+	{
+		IR_Time = Timer0_GetCounter();
+		Timer0_SetCounter(0);
+		if (IR_Time > 1032 - 500 && IR_Time < 1032 + 500)
+		{
+			IR_Data[IR_pData / 8] &= ~(0x01 << (IR_pData % 8)); // 数据对应位清0
+			IR_pData++;											// 数据位置指针自增
+		}
+		else if (IR_Time > 2074 - 500 && IR_Time < 2074 + 500) // 判断是否是数据1
+		{
+			IR_Data[IR_pData / 8] |= (0x01 << (IR_pData % 8)); // 若是数据1，则根据pData将1放入相应位
+			IR_pData++;
+		}
+		else // 既不是0也不是1，说明数据有误，则回到状态1重新接受start信号，因为你按遥控板时，按一次没反应，肯定会按第二次
+		{
+			IR_pData = 0;
+			IR_State = 1;
+		}
+		if (IR_pData >= 32) // 如果接收到了32位数据
+		{
+			IR_pData = 0;													// 数据位置指针清0
+			if ((IR_Data[0] == ~IR_Data[1]) && (IR_Data[2] == ~IR_Data[3])) // 数据验证
+			{
+				IR_Address = IR_Data[0]; // 转存数据
+				IR_Command = IR_Data[2];
+				IR_DataFlag = 1; // 置收到连发帧标志位为1
+			}
+			Timer0_Run(0); // 定时器停止
+			IR_State = 0;  // 置状态为0
+		}
+	}
+}

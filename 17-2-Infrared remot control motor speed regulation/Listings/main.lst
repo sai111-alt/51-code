@@ -1,0 +1,105 @@
+C51 COMPILER V9.59.0.0   MAIN                                                              11/29/2024 13:50:53 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\RJ\Keil5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(D:\RJ\Keil5\C51\INC;D:\RJ\Keil5\
+                    -C51\INC\Atmel) DEBUG OBJECTEXTEND PRINT(.\Listings\main.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include "Delay.h"
+   2          
+   3          sbit Motor = P1 ^ 0;
+   4          
+   5          unsigned char Counter = 0;
+   6          unsigned char Compare = 0;
+   7          unsigned char Command = 0;
+   8          unsigned char Speed = 0;
+   9          
+  10          void main()
+  11          {
+  12   1        Timer1_Init();
+  13   1        IR_Init();
+  14   1        Compare = 5;
+  15   1        while (1)
+  16   1        {
+  17   2          if (IR_GetDataFlag())
+  18   2          {
+  19   3            Command = IR_GetCommand();
+  20   3            if(Command==IR_0)
+  21   3            {
+  22   4              Speed = 0;
+  23   4            }
+  24   3            if (Command == IR_1)
+  25   3            {
+  26   4              Speed = 1;
+  27   4            }
+  28   3            if (Command == IR_2)
+  29   3            {
+  30   4              Speed = 2;
+  31   4            }
+  32   3            if (Command == IR_3)
+  33   3            {
+  34   4              Speed = 3;
+  35   4            }
+  36   3      
+  37   3            if (Speed == 0)
+  38   3            {
+  39   4              Compare = 0;
+  40   4            }
+  41   3            if (Speed == 1)
+  42   3            {
+  43   4              Compare = 50;
+  44   4            }
+  45   3            if (Speed == 2)
+  46   3            {
+  47   4              Compare = 75;
+  48   4            }
+  49   3            if (Speed == 3)
+  50   3            {
+  51   4              Compare = 100;
+  52   4            }
+  53   3          }
+  54   2          NixieTube(1, Speed);
+C51 COMPILER V9.59.0.0   MAIN                                                              11/29/2024 13:50:53 PAGE 2   
+
+  55   2        }
+  56   1      }
+  57          
+  58          void Timer1_Routine() interrupt 3
+  59          {
+  60   1        TL1 = 0x9C; // 设置定时初始值
+  61   1        TH1 = 0xFF; // 设置定时初始值
+  62   1        Counter++;
+  63   1      
+  64   1        // 这里还可以用Counter%=100代替该if语句，两者效果相同
+  65   1        if (Counter >= 100)
+  66   1        {
+  67   2          Counter = 0;
+  68   2        }
+  69   1      
+  70   1        // 产生PWM
+  71   1        if (Counter < Compare)
+  72   1        {
+  73   2          Motor = 1;
+  74   2        }
+  75   1        else
+  76   1        {
+  77   2          Motor = 0;
+  78   2        }
+  79   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    145    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

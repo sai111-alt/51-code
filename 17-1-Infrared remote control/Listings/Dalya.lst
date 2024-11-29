@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 1   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/29/2024 13:20:59 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE DALYA
@@ -62,7 +62,7 @@ line level    source
   52   1      }
   53          
   54          /**
-C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 2   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/29/2024 13:20:59 PAGE 2   
 
   55           * @brief  LCD1602设置光标位置
   56           * @param  Line 行位置，范围：1~2
@@ -126,7 +126,7 @@ line level    source
  114          
  115          /**
  116           * @brief  返回值=X的Y次方
-C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 3   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/29/2024 13:20:59 PAGE 3   
 
  117           */
  118          int LCD_Pow(int X, int Y)
@@ -190,7 +190,7 @@ line level    source
  176          /**
  177           * @brief  在LCD1602指定位置开始以十六进制显示所给数字
  178           * @param  Line 起始行位置，范围：1~2
-C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 4   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/29/2024 13:20:59 PAGE 4   
 
  179           * @param  Column 起始列位置，范围：1~16
  180           * @param  Number 要显示的数字，范围：0~0xFFFF
@@ -254,7 +254,7 @@ line level    source
  238   1        unsigned char NixieTable[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F};
  239   1        switch (Location)
  240   1        {
-C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 5   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/29/2024 13:20:59 PAGE 5   
 
  241   2        case 1:
  242   2          P2_4 = 1;
@@ -318,7 +318,7 @@ line level    source
  300   1      
  301   1        P1 = 0xFF;
  302   1        P1_3 = 0; /*结合电路原理图，当P1_3=0，其他列为1时，则检测第1列，当有按键按下�
-C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 6   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/29/2024 13:20:59 PAGE 6   
 
              -��，
  303   1                 比如S1被按下，那么电路导通，会使得P1_7=0;反之，若P1_7=0,则S1被按下，
@@ -382,7 +382,7 @@ line level    source
  360   2          while (P1_7 == 0)
  361   2            ;
  362   2          Delay(100);
-C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 7   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/29/2024 13:20:59 PAGE 7   
 
  363   2          KeyNumber = 10;
  364   2        }
@@ -446,7 +446,7 @@ line level    source
  422   2          while (P1_7 == 0)
  423   2            ;
  424   2          Delay(100);
-C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 8   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/29/2024 13:20:59 PAGE 8   
 
  425   2          KeyNumber = 8;
  426   2        }
@@ -474,7 +474,7 @@ line level    source
  448          {
  449   1        TMOD &= 0xF0; // 把TMOD的低四位清零，高四位保持不变
  450   1        TMOD |= 0x01; // 把TMOD的最低位置1，其他7位保持不变，这里即设置了定时器0的模式
-             -是工作方式1：16为计数器
+             -是工作方式1：16位计数器
  451   1        // 这样做的好处就在于可以只操作TMOD的其中某些位而不影响其他位
  452   1      
  453   1        TF0 = 0; // 设置T0定时器溢出标志位为0
@@ -510,7 +510,7 @@ line level    source
  478              T0Count=0;
  479          
  480            }
-C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 9   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/29/2024 13:20:59 PAGE 9   
 
  481          }
  482          */
@@ -574,7 +574,7 @@ line level    source
  539   1      
  540   1        ET1 = 0; // 禁止定时器中断,这里不需要定时器中断
  541   1      
-C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 10  
+C51 COMPILER V9.59.0.0   DALYA                                                             11/29/2024 13:20:59 PAGE 10  
 
  542   1        EA = 1; // 总中断开关闭合
  543   1        ES = 1; // 串口中断开关闭合，当发送/接受数据时，则触发中断
@@ -638,7 +638,7 @@ line level    source
  599          void DS1302_Init(void)
  600          {
  601   1        DS1302_SCLK = 0;
-C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 11  
+C51 COMPILER V9.59.0.0   DALYA                                                             11/29/2024 13:20:59 PAGE 11  
 
  602   1        DS1302_CE = 0;
  603   1      }
@@ -702,7 +702,7 @@ line level    source
  661   1      
  662   1        DS1302_WriteByte(DS1302_YEAR, DS1302_Time[0] / 10 * 16 + DS1302_Time[0] % 10);
  663   1        DS1302_WriteByte(DS1302_MONTH, DS1302_Time[1] / 10 * 16 + DS1302_Time[1] % 10);
-C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 12  
+C51 COMPILER V9.59.0.0   DALYA                                                             11/29/2024 13:20:59 PAGE 12  
 
  664   1        DS1302_WriteByte(DS1302_DATE, DS1302_Time[2] / 10 * 16 + DS1302_Time[2] % 10);
  665   1        DS1302_WriteByte(DS1302_HOUR, DS1302_Time[3] / 10 * 16 + DS1302_Time[3] % 10);
@@ -766,7 +766,7 @@ line level    source
  723   1      
  724   1        I2C_SDA = 1;
  725   1      
-C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 13  
+C51 COMPILER V9.59.0.0   DALYA                                                             11/29/2024 13:20:59 PAGE 13  
 
  726   1        for (i = 0; i < 8; i++)
  727   1        {
@@ -830,7 +830,7 @@ line level    source
  785   1        return Data;
  786   1      }
  787          
-C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 14  
+C51 COMPILER V9.59.0.0   DALYA                                                             11/29/2024 13:20:59 PAGE 14  
 
  788          // 外部中断初始化函数
  789          void Int0_Init(void)
@@ -849,14 +849,161 @@ line level    source
  801          
  802          }
  803          */
+ 804          
+ 805          void Timer0_Init(void)
+ 806          {
+ 807   1        TMOD &= 0xF0;
+ 808   1        TMOD |= 0x01;
+ 809   1      
+ 810   1        TF0 = 0;
+ 811   1        TR0 = 0; // 即初始化关闭定时器0计时
+ 812   1      
+ 813   1        TH0 = 0;
+ 814   1        TL0 = 0;
+ 815   1      }
+ 816          
+ 817          // 此函数用于设置定时器的定时时间
+ 818          void Timer0_SetCounter(unsigned int Value)
+ 819          {
+ 820   1        TH0 = Value / 256;
+ 821   1        TL0 = Value % 256;
+ 822   1      }
+ 823          
+ 824          // 此函数用于得到定时器计时当前的时间
+ 825          unsigned int Timer0_GetCounter(void)
+ 826          {
+ 827   1        return (TH0 << 8) | TL0;
+ 828   1      }
+ 829          
+ 830          // 此函数负责开启和关闭定时器
+ 831          void Timer0_Run(unsigned char Flag)
+ 832          {
+ 833   1        TR0 = Flag;
+ 834   1      }
+ 835          
+ 836          unsigned int IR_Time;
+ 837          unsigned char IR_State;
+ 838          
+ 839          unsigned char IR_Data[4];
+ 840          unsigned char IR_pData; // 记录Data存到了第几位
+ 841          
+ 842          unsigned char IR_DataFlag;   // Data数据收到的标志位
+ 843          unsigned char IR_RepeatFlag; // 重发标志位
+ 844          
+ 845          unsigned char IR_Address;
+ 846          unsigned char IR_Command;
+ 847          
+ 848          void IR_Init(void)
+C51 COMPILER V9.59.0.0   DALYA                                                             11/29/2024 13:20:59 PAGE 15  
+
+ 849          {
+ 850   1        Timer0_Init();
+ 851   1        Int0_Init();
+ 852   1      }
+ 853          
+ 854          unsigned char IR_GetDataFlag(void)
+ 855          {
+ 856   1        if (IR_DataFlag)
+ 857   1        {
+ 858   2          IR_DataFlag = 0;
+ 859   2          return 1;
+ 860   2        }
+ 861   1        return 0;
+ 862   1      }
+ 863          
+ 864          unsigned char IR_GetRepeatFlag(void)
+ 865          {
+ 866   1        if (IR_RepeatFlag)
+ 867   1        {
+ 868   2          IR_RepeatFlag = 0;
+ 869   2          return 1;
+ 870   2        }
+ 871   1        return 0;
+ 872   1      }
+ 873          
+ 874          unsigned char IR_GetAddress(void)
+ 875          {
+ 876   1        return IR_Address;
+ 877   1      }
+ 878          
+ 879          unsigned char IR_GetCommand(void)
+ 880          {
+ 881   1        return IR_Command;
+ 882   1      }
+ 883          
+ 884          // 11.0592MHz： Start信号：12442±1000，Repeat : 10368±1000； 读“0”：1032±1000；读“1”�
+             -��2074±1000；改好以后就能有现象了。
+ 885          void Int0_Routine(void) interrupt 0
+ 886          {
+ 887   1        if (IR_State == 0) // 发送的最初状态0要初始化定时器开始计时
+ 888   1        {
+ 889   2          Timer0_SetCounter(0);
+ 890   2          Timer0_Run(1);
+ 891   2          IR_State = 1;
+ 892   2        }
+ 893   1        else if (IR_State == 1) // 从状态0变到状态1意味着红外信号可能来了
+ 894   1        {
+ 895   2          IR_Time = Timer0_GetCounter();
+ 896   2          Timer0_SetCounter(0);
+ 897   2          if (IR_Time > 12442 - 500 && IR_Time < 12442 + 500) // 判断是否时start信号
+ 898   2          {
+ 899   3            IR_State = 2; // 若是start信号则进入状态2接受数据
+ 900   3          }
+ 901   2          else if (IR_Time > 10368 - 500 && IR_Time < 10368 + 500) // 判断是否时repeat信号
+ 902   2          {
+ 903   3            IR_RepeatFlag = 1; // 如果是repeat信号，说明Data已经发完了，开始重复发Data
+ 904   3            Timer0_Run(0);
+ 905   3            IR_State = 0;
+ 906   3          }
+ 907   2          else // 如果既不是satart，也不是repeat，说明信号有问题，则回到1重复判断
+ 908   2          {
+ 909   3            IR_State = 1;
+C51 COMPILER V9.59.0.0   DALYA                                                             11/29/2024 13:20:59 PAGE 16  
+
+ 910   3          }
+ 911   2        }
+ 912   1        else if (IR_State == 2)
+ 913   1        {
+ 914   2          IR_Time = Timer0_GetCounter();
+ 915   2          Timer0_SetCounter(0);
+ 916   2          if (IR_Time > 1032 - 500 && IR_Time < 1032 + 500)
+ 917   2          {
+ 918   3            IR_Data[IR_pData / 8] &= ~(0x01 << (IR_pData % 8)); // 数据对应位清0
+ 919   3            IR_pData++;                     // 数据位置指针自增
+ 920   3          }
+ 921   2          else if (IR_Time > 2074 - 500 && IR_Time < 2074 + 500) // 判断是否是数据1
+ 922   2          {
+ 923   3            IR_Data[IR_pData / 8] |= (0x01 << (IR_pData % 8)); // 若是数据1，则根据pData将1放入相应位
+ 924   3            IR_pData++;
+ 925   3          }
+ 926   2          else // 既不是0也不是1，说明数据有误，则回到状态1重新接受start信号，因为你�
+             -��遥控板时，按一次没反应，肯定会按第二次
+ 927   2          {
+ 928   3            IR_pData = 0;
+ 929   3            IR_State = 1;
+ 930   3          }
+ 931   2          if (IR_pData >= 32) // 如果接收到了32位数据
+ 932   2          {
+ 933   3            IR_pData = 0;                         // 数据位置指针清0
+ 934   3            if ((IR_Data[0] == ~IR_Data[1]) && (IR_Data[2] == ~IR_Data[3])) // 数据验证
+ 935   3            {
+ 936   4              IR_Address = IR_Data[0]; // 转存数据
+ 937   4              IR_Command = IR_Data[2];
+ 938   4              IR_DataFlag = 1; // 置收到连发帧标志位为1
+ 939   4            }
+ 940   3            Timer0_Run(0); // 定时器停止
+ 941   3            IR_State = 0;  // 置状态为0
+ 942   3          }
+ 943   2        }
+ 944   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1849    ----
+   CODE SIZE        =   2240    ----
    CONSTANT SIZE    =     10    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      7      41
+   DATA SIZE        =     19      41
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
