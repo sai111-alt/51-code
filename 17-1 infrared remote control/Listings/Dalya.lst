@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 19:25:23 PAGE 1   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE DALYA
@@ -62,7 +62,7 @@ line level    source
   52   1      }
   53          
   54          /**
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 19:25:23 PAGE 2   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 2   
 
   55           * @brief  LCD1602设置光标位置
   56           * @param  Line 行位置，范围：1~2
@@ -126,7 +126,7 @@ line level    source
  114          
  115          /**
  116           * @brief  返回值=X的Y次方
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 19:25:23 PAGE 3   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 3   
 
  117           */
  118          int LCD_Pow(int X, int Y)
@@ -190,7 +190,7 @@ line level    source
  176          /**
  177           * @brief  在LCD1602指定位置开始以十六进制显示所给数字
  178           * @param  Line 起始行位置，范围：1~2
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 19:25:23 PAGE 4   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 4   
 
  179           * @param  Column 起始列位置，范围：1~16
  180           * @param  Number 要显示的数字，范围：0~0xFFFF
@@ -254,7 +254,7 @@ line level    source
  238   1        unsigned char NixieTable[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F};
  239   1        switch (Location)
  240   1        {
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 19:25:23 PAGE 5   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 5   
 
  241   2        case 1:
  242   2          P2_4 = 1;
@@ -318,7 +318,7 @@ line level    source
  300   1      
  301   1        P1 = 0xFF;
  302   1        P1_3 = 0; /*结合电路原理图，当P1_3=0，其他列为1时，则检测第1列，当有按键按下�
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 19:25:23 PAGE 6   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 6   
 
              -��，
  303   1                 比如S1被按下，那么电路导通，会使得P1_7=0;反之，若P1_7=0,则S1被按下，
@@ -382,7 +382,7 @@ line level    source
  360   2          while (P1_7 == 0)
  361   2            ;
  362   2          Delay(100);
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 19:25:23 PAGE 7   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 7   
 
  363   2          KeyNumber = 10;
  364   2        }
@@ -446,7 +446,7 @@ line level    source
  422   2          while (P1_7 == 0)
  423   2            ;
  424   2          Delay(100);
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 19:25:23 PAGE 8   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 8   
 
  425   2          KeyNumber = 8;
  426   2        }
@@ -510,7 +510,7 @@ line level    source
  478              T0Count=0;
  479          
  480            }
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 19:25:23 PAGE 9   
+C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 9   
 
  481          }
  482          */
@@ -574,7 +574,7 @@ line level    source
  539   1      
  540   1        ET1 = 0; // 禁止定时器中断,这里不需要定时器中断
  541   1      
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 19:25:23 PAGE 10  
+C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 10  
 
  542   1        EA = 1; // 总中断开关闭合
  543   1        ES = 1; // 串口中断开关闭合，当发送/接受数据时，则触发中断
@@ -638,7 +638,7 @@ line level    source
  599          void DS1302_Init(void)
  600          {
  601   1        DS1302_SCLK = 0;
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 19:25:23 PAGE 11  
+C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 11  
 
  602   1        DS1302_CE = 0;
  603   1      }
@@ -702,7 +702,7 @@ line level    source
  661   1      
  662   1        DS1302_WriteByte(DS1302_YEAR, DS1302_Time[0] / 10 * 16 + DS1302_Time[0] % 10);
  663   1        DS1302_WriteByte(DS1302_MONTH, DS1302_Time[1] / 10 * 16 + DS1302_Time[1] % 10);
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 19:25:23 PAGE 12  
+C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 12  
 
  664   1        DS1302_WriteByte(DS1302_DATE, DS1302_Time[2] / 10 * 16 + DS1302_Time[2] % 10);
  665   1        DS1302_WriteByte(DS1302_HOUR, DS1302_Time[3] / 10 * 16 + DS1302_Time[3] % 10);
@@ -733,7 +733,7 @@ line level    source
  690   1        DS1302_Time[6] = Temp / 16 * 10 + Temp % 16;
  691   1      }
  692          
- 693          void I2C_Start(void)//I2C开始
+ 693          void I2C_Start(void) // I2C开始
  694          {
  695   1        I2C_SCL = 1;
  696   1        I2C_SDA = 1;
@@ -741,17 +741,17 @@ line level    source
  698   1        I2C_SCL = 0;
  699   1      }
  700          
- 701          void I2C_Stop(void)//I2C停止
- 702          { 
+ 701          void I2C_Stop(void) // I2C停止
+ 702          {
  703   1        I2C_SDA = 0;
  704   1        I2C_SCL = 1;
  705   1        I2C_SDA = 1;
  706   1      }
  707          
- 708          void I2C_SendByte(unsigned char Byte)//I2C发送一个字节，Byte即要发送的字节
+ 708          void I2C_SendByte(unsigned char Byte) // I2C发送一个字节，Byte即要发送的字节
  709          {
  710   1        unsigned char i;
- 711   1        for (i = 0; i < 8;i++)
+ 711   1        for (i = 0; i < 8; i++)
  712   1        {
  713   2          I2C_SDA = Byte & (0x80 >> i); // 依次取出Byte的位
  714   2          I2C_SCL = 1;
@@ -759,14 +759,14 @@ line level    source
  716   2        }
  717   1      }
  718          
- 719          unsigned char I2C_ReceiveByte(void)//I2C接收一个字节并返回
+ 719          unsigned char I2C_ReceiveByte(void) // I2C接收一个字节并返回
  720          {
  721   1        unsigned char Byte = 0x00;
  722   1        unsigned char i = 0;
  723   1      
  724   1        I2C_SDA = 1;
  725   1      
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 19:25:23 PAGE 13  
+C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 13  
 
  726   1        for (i = 0; i < 8; i++)
  727   1        {
@@ -777,7 +777,7 @@ line level    source
  732   3          }
  733   2          I2C_SCL = 0;
  734   2        }
- 735   1          
+ 735   1      
  736   1        return Byte;
  737   1      }
  738          
@@ -788,18 +788,18 @@ line level    source
  743   1        I2C_SCL = 0;
  744   1      }
  745          
- 746          unsigned char I2C_ReceiveAck(void)//I2C主机接收应答
+ 746          unsigned char I2C_ReceiveAck(void) // I2C主机接收应答
  747          {
  748   1        unsigned char AckBit;
  749   1        I2C_SDA = 1;
  750   1        I2C_SCL = 1;
  751   1        AckBit = I2C_SDA;
- 752   1        I2C_SCL = 0;  
+ 752   1        I2C_SCL = 0;
  753   1        return AckBit;
  754   1      }
  755          
  756          // 注意输入的WordAddress是8位地址，所以取值应是0~255
- 757          void AT24C02_WriterByte(unsigned char WordAddress,unsigned char Data)
+ 757          void AT24C02_WriterByte(unsigned char WordAddress, unsigned char Data)
  758          {
  759   1        I2C_Start();
  760   1        I2C_SendByte(AT24C02_ADDRESS);
@@ -829,12 +829,30 @@ line level    source
  784   1      
  785   1        return Data;
  786   1      }
+ 787          
+C51 COMPILER V9.59.0.0   DALYA                                                             11/28/2024 11:35:39 PAGE 14  
 
-C51 COMPILER V9.59.0.0   DALYA                                                             11/27/2024 19:25:23 PAGE 14  
+ 788          // 外部中断初始化函数
+ 789          void Int0_Init(void)
+ 790          {
+ 791   1        IT0 = 1; // 设置外部中断为下降沿触发
+ 792   1        IE0 = 0; // 设置外部中断标志位为0
+ 793   1        EX0 = 1; // 外部中断对应开关闭合
+ 794   1        EA = 1;  // 中断总开关闭合
+ 795   1        PX0 = 1; // 设置外部中断的优先级为高级，这样当红外信号来时，外部中断可以打
+             -断其他信号以即时处理红外信号
+ 796   1      }
+ 797          
+ 798          /*外部中断函数模板
+ 799          void Int0_Routine(void) interrupt 0
+ 800          {
+ 801          
+ 802          }
+ 803          */
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1838    ----
+   CODE SIZE        =   1849    ----
    CONSTANT SIZE    =     10    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

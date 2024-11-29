@@ -15,24 +15,24 @@ sbit RCK = P3 ^ 5; // RCK即74HC595的RCLK
 sbit SCK = P3 ^ 6; // 同理，即SRCLK
 sbit SER = P3 ^ 4;
 
-//蜂鸣器定义
+// 蜂鸣器定义
 sbit Buzzer = P2 ^ 5;
 
-//DS1302引脚配置和其他定义
+// DS1302引脚配置和其他定义
 sbit DS1302_SCLK = P3 ^ 6;
 sbit DS1302_IO = P3 ^ 4;
 sbit DS1302_CE = P3 ^ 5;
 extern char DS1302_Time[7]; // 年月日时分秒星期,extrn的作用是方便其他c文件引用此全局变量
-#define DS1302_SECOND 0x80  //这里只定义WRITE的地址，而READ的地址只是对应比它多1
-#define DS1302_MINUTE 0x82  //也就是说每一行都比它多1就是READ的地址，刚好就是最后一位置1就是
-#define DS1302_HOUR   0x84  //READ地址，而最后一位置0就是WRITE的地址
-#define DS1302_DATE   0x86
-#define DS1302_MONTH  0x88
-#define DS1302_DAY    0x8A
-#define DS1302_YEAR   0x8C
-#define DS1302_WP     0x8E
+#define DS1302_SECOND 0x80  // 这里只定义WRITE的地址，而READ的地址只是对应比它多1
+#define DS1302_MINUTE 0x82  // 也就是说每一行都比它多1就是READ的地址，刚好就是最后一位置1就是
+#define DS1302_HOUR 0x84    // READ地址，而最后一位置0就是WRITE的地址
+#define DS1302_DATE 0x86
+#define DS1302_MONTH 0x88
+#define DS1302_DAY 0x8A
+#define DS1302_YEAR 0x8C
+#define DS1302_WP 0x8E
 
-//I2C定义
+// I2C定义
 sbit I2C_SCL = P2 ^ 1;
 sbit I2C_SDA = P2 ^ 0;
 #define AT24C02_ADDRESS 0xA0
@@ -78,5 +78,7 @@ void I2C_SendAck(unsigned char AckBit);
 unsigned char I2C_ReciveAck(void);
 void AT24C02_WriterByte(unsigned char WordAddress, unsigned char Data);
 unsigned char AT24C02_ReadByte(unsigned char WordAddress);
+
+void Int0_Init(void);
 
 #endif

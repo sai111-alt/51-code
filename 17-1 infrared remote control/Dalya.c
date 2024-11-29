@@ -447,7 +447,7 @@ unsigned char MatrixKeyboard()
 void Timer0Init() // 1ms@12MHz
 {
 	TMOD &= 0xF0; // 把TMOD的低四位清零，高四位保持不变
-	TMOD |= 0x01; // 把TMOD的最低位置1，其他7位保持不变，这里即设置了定时器0的模式是工作方式1：16为计数器
+	TMOD |= 0x01; // 把TMOD的最低位置1，其他7位保持不变，这里即设置了定时器0的模式是工作方式1：16位计数器
 	// 这样做的好处就在于可以只操作TMOD的其中某些位而不影响其他位
 
 	TF0 = 0; // 设置T0定时器溢出标志位为0
@@ -690,7 +690,7 @@ void DS1302_ReadTime(void)
 	DS1302_Time[6] = Temp / 16 * 10 + Temp % 16;
 }
 
-void I2C_Start(void)//I2C开始
+void I2C_Start(void) // I2C开始
 {
 	I2C_SCL = 1;
 	I2C_SDA = 1;
@@ -698,17 +698,17 @@ void I2C_Start(void)//I2C开始
 	I2C_SCL = 0;
 }
 
-void I2C_Stop(void)//I2C停止
-{ 
+void I2C_Stop(void) // I2C停止
+{
 	I2C_SDA = 0;
 	I2C_SCL = 1;
 	I2C_SDA = 1;
 }
 
-void I2C_SendByte(unsigned char Byte)//I2C发送一个字节，Byte即要发送的字节
+void I2C_SendByte(unsigned char Byte) // I2C发送一个字节，Byte即要发送的字节
 {
 	unsigned char i;
-	for (i = 0; i < 8;i++)
+	for (i = 0; i < 8; i++)
 	{
 		I2C_SDA = Byte & (0x80 >> i); // 依次取出Byte的位
 		I2C_SCL = 1;
@@ -716,7 +716,7 @@ void I2C_SendByte(unsigned char Byte)//I2C发送一个字节，Byte即要发送�
 	}
 }
 
-unsigned char I2C_ReceiveByte(void)//I2C接收一个字节并返回
+unsigned char I2C_ReceiveByte(void) // I2C接收一个字节并返回
 {
 	unsigned char Byte = 0x00;
 	unsigned char i = 0;
@@ -732,7 +732,7 @@ unsigned char I2C_ReceiveByte(void)//I2C接收一个字节并返回
 		}
 		I2C_SCL = 0;
 	}
-		
+
 	return Byte;
 }
 
@@ -743,18 +743,18 @@ void I2C_SendAck(unsigned char AckBit) // I2C主机发送应答，AckBit为应�
 	I2C_SCL = 0;
 }
 
-unsigned char I2C_ReceiveAck(void)//I2C主机接收应答
+unsigned char I2C_ReceiveAck(void) // I2C主机接收应答
 {
 	unsigned char AckBit;
 	I2C_SDA = 1;
 	I2C_SCL = 1;
 	AckBit = I2C_SDA;
-	I2C_SCL = 0;  
+	I2C_SCL = 0;
 	return AckBit;
 }
 
 // 注意输入的WordAddress是8位地址，所以取值应是0~255
-void AT24C02_WriterByte(unsigned char WordAddress,unsigned char Data)
+void AT24C02_WriterByte(unsigned char WordAddress, unsigned char Data)
 {
 	I2C_Start();
 	I2C_SendByte(AT24C02_ADDRESS);
@@ -784,3 +784,20 @@ unsigned char AT24C02_ReadByte(unsigned char WordAddress)
 
 	return Data;
 }
+
+// 外部中断初始化函数
+void Int0_Init(void)
+{
+	IT0 = 1; // 设置外部中断为下降沿触发
+	IE0 = 0; // 设置外部中断标志位为0
+	EX0 = 1; // 外部中断对应开关闭合
+	EA = 1;	 // 中断总开关闭合
+	PX0 = 1; // 设置外部中断的优先级为高级，这样当红外信号来时，外部中断可以打断其他信号以即时处理红外信号
+}
+
+/*外部中断函数模板
+void Int0_Routine(void) interrupt 0
+{
+
+}
+*/

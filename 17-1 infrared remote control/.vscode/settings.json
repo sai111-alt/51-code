@@ -1,6 +1,7 @@
 {
   "files.associations": {
     "delay.h": "c",
-    "intrins.h": "c"
+    "intrins.h": "c",
+    "regx52.h": "c"
   }
 }
