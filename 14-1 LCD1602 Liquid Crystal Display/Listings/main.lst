@@ -1,0 +1,49 @@
+C51 COMPILER V9.59.0.0   MAIN                                                              12/01/2024 22:27:59 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\RJ\Keil5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(D:\RJ\Keil5\C51\INC;D:\RJ\Keil5\
+                    -C51\INC\Atmel) DEBUG OBJECTEXTEND PRINT(.\Listings\main.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include "Delay.h"
+   2          
+   3          unsigned char Num = 0;
+   4          unsigned char Address = 0;
+   5          unsigned char Command = 0;
+   6          
+   7          void main()
+   8          {
+   9   1        LCD_Init();
+  10   1        LCD_ShowChar(1, 1, 'a');
+  11   1        LCD_ShowString(2, 1, "string");
+  12   1        LCD_ShowNum(2, 8, 647, 3);
+  13   1        LCD_ShowSignedNum(2, 12, 123, 4);
+  14   1        LCD_ShowHexNum(1, 3, 0xA5, 2);
+  15   1        LCD_ShowBinNum(1, 6, 0xA5, 8);
+  16   1        LCD_ShowChar(1, 15, 0xDF);
+  17   1        LCD_ShowChar(1, 16, 'C');
+  18   1        LCD_ShowString(1, 17, "Welcome to China!");
+  19   1      
+  20   1        while (1)
+  21   1        {
+  22   2          LCD_WriteCommand(0x18);
+  23   2          Delay(750);
+  24   2        }
+  25   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    126    ----
+   CONSTANT SIZE    =     25    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
