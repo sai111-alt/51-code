@@ -1,0 +1,57 @@
+C51 COMPILER V9.59.0.0   MAIN                                                              12/01/2024 17:56:33 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\RJ\Keil5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(D:\RJ\Keil5\C51\INC;D:\RJ\Keil5\
+                    -C51\INC\Atmel) DEBUG OBJECTEXTEND PRINT(.\Listings\main.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include "Delay.h"
+   2          
+   3          float T = 0;
+   4          
+   5          void main()
+   6          {
+   7   1        DS18B20_ConvertT();
+   8   1        Delay(1000);
+   9   1      
+  10   1        LCD_Init();
+  11   1        LCD_ShowString(1, 1, "Temperature:");
+  12   1      
+  13   1        while (1)
+  14   1        {
+  15   2          DS18B20_ConvertT();
+  16   2          T = DS18B20_ReadT();
+  17   2          if (T < 0)
+  18   2          {
+  19   3            LCD_ShowChar(2, 1, '-');
+  20   3          }
+  21   2          else
+  22   2          {
+  23   3            LCD_ShowChar(2, 1, '+');
+  24   3          }
+  25   2          LCD_ShowNum(2, 2, T, 3);
+  26   2          LCD_ShowChar(2, 5, '.');
+  27   2      
+  28   2          // 这里float T是以10进制进行显示，所以将T*10000再强转为long，因为float不能进行�
+             -��余操作，
+  29   2          // 最后再%10000取出其后4位小数数值
+  30   2          LCD_ShowNum(2, 6, (unsigned long)(T * 10000) % 10000, 4);
+  31   2        }
+  32   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    149    ----
+   CONSTANT SIZE    =     13    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
