@@ -17,6 +17,7 @@ void main()
 		if (T < 0)
 		{
 			LCD_ShowChar(2, 1, '-');
+			T = -T;
 		}
 		else
 		{
